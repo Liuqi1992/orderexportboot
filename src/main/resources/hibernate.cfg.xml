@@ -1,8 +1,3 @@
-<!-- NOTE: If you're working offline, you might have to change the DOCTYPE to the following:
-<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
-    "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
-<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
-    "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">-->
 <!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
         "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
 
@@ -10,38 +5,8 @@
     <session-factory>
         <property name="connection.url">jdbc:mysql://localhost:3306/tclapp</property>
         <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
-        <mapping class="com.tcl.pojo.AppCDoctorEntity"/>
-        <mapping class="com.tcl.pojo.AppCBillEntity"/>
-        <mapping class="com.tcl.pojo.AppCHospitalEntity"/>
-        <mapping class="com.tcl.pojo.AppCOrderEntity"/>
-        <mapping class="com.tcl.pojo.AppCPackageEntity"/>
-        <mapping class="com.tcl.pojo.AppCPackageDetailsEntity"/>
-        <mapping class="com.tcl.pojo.AppCTradeEntity"/>
-        <mapping class="com.tcl.pojo.AppCUserEntity"/>
-        <mapping class="com.tcl.pojo.AppCApplicantEntity"/>
-        <mapping class="com.tcl.pojo.AppCNewspaperEntity"/>
-        <mapping class="com.tcl.pojo.AppCCartEntity"/>
-        <mapping class="com.tcl.pojo.AppCCartEntity"/>
-        <mapping class="com.tcl.pojo.AppCFollowEntity"/>
-        <mapping class="com.tcl.pojo.AppCDoctorStatisticsEntity"/>
-        <mapping class="com.tcl.pojo.AppCDepartmentEntity"/>
-        <mapping class="com.tcl.pojo.AppCMessageEntity"/>
-        <mapping class="com.tcl.pojo.AppCBasedataEntity"/>
-        <mapping class="com.tcl.pojo.AppCollectManualEntity"/>
-        <mapping class="com.tcl.pojo.AppTexttypeEntity"/>
-        <mapping class="com.tcl.pojo.AppCKnowledgeEntity"/>
-        <mapping class="com.tcl.pojo.AppCKnowledgeDetailsEntity"/>
-        <mapping class="com.tcl.pojo.AppCDoctorRecommendStatisticEntity" />
-        <mapping class="com.tcl.pojo.AppCDoctorAttentionUserEntity" />
-        <mapping class="com.tcl.pojo.AppCDoctorAttentionDoctorEntity" />
-        <mapping class="com.tcl.pojo.VDoctorAttentionEntity" />
-        <mapping class="com.tcl.pojo.VDoctorInfoEntity" />
-        <mapping class="com.tcl.pojo.VChatRecommendEntity" />
-        <mapping class="com.tcl.pojo.VPackageKnowledgeManualEntity" />
-        <mapping class="com.tcl.pojo.VTradeNewProcessEntity" />
-        <mapping class="com.tcl.pojo.VOrderPackageInfoEntity" />
-        <mapping class="com.tcl.pojo.AppCProvinceEntity" />
-        <mapping class="com.tcl.pojo.AppCCityEntity" />
-        <mapping class="com.tcl.pojo.AppCAreaEntity" />
+        <mapping class="com.order.pojo.AppCTradeEntity"/>
+        <mapping class="com.order.pojo.AppCApplicantEntity"/>
+        <mapping class="com.order.pojo.VTradeNewProcessEntity" />
     </session-factory>
 </hibernate-configuration>
