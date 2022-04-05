@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tcl.dao.TradeDao">
+
+
+  <update id="updateTrade" parameterType="map" >
+    update app_c_trade
+    <set >
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="yzDoctorId != null" >
+        yz_doctor_id = #{yzDoctorId,jdbcType=VARCHAR},
+      </if>
+      <if test="yzDoctorNum != null" >
+        yz_doctor_num = #{yzDoctorNum,jdbcType=VARCHAR},
+      </if>
+      <if test="yzDoctorName != null" >
+        yz_doctor_name = #{yzDoctorName,jdbcType=VARCHAR},
+      </if>
+      <if test="yzDepartmentNum != null" >
+        yz_department_num = #{yzDepartmentNum,jdbcType=VARCHAR},
+      </if>
+      <if test="yzDepartmentName != null" >
+        yz_department_name = #{yzDepartmentName,jdbcType=VARCHAR},
+      </if>
+      <if test="yzTime != null" >
+        yz_time = #{yzTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where status=1 and pay_time  &lt;  #{payType,jdbcType=INTEGER}
+  </update>
+
+
+  <resultMap id="TradeMap" type="com.tcl.vo.TradeVo" >
+    <id column="id" property="id" jdbcType="BIGINT"/>
+    <result column="need_attention" property="needAttention" jdbcType="VARCHAR" />
+    <result column="hospital_name" property="hospitalName" jdbcType="VARCHAR" />
+    <result column="take_time" property="takeTime" jdbcType="TIMESTAMP" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="trade_num" property="tradeNum" jdbcType="VARCHAR" />
+    <result column="apply_name" property="applicantName" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="sfz_num" property="sfzNum" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="ordered_time" property="orderedTime" jdbcType="TIMESTAMP" />
+    <result column="trade_num" property="tradeNum" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="orderId" property="orderId" jdbcType="VARCHAR" />
+
+
+  </resultMap>
+  <resultMap id="ResultOfLong" type="java.lang.Long">
+    <result column="total" property="total" jdbcType="BIGINT" />
+  </resultMap>
+  <select id="tradeList" parameterType="java.lang.String"  resultMap="TradeMap">
+--     SELECT t.*,a.apply_name,a.phone,o.id AS orderId FROM app_c_trade t LEFT JOIN app_c_order o on t.id=o.trade_id LEFT JOIN app_c_applicant a on t.applicant_id=a.id
+    SELECT distinct t.*,a.apply_name,a.phone FROM app_c_trade t LEFT JOIN app_c_order o on t.id=o.trade_id LEFT JOIN app_c_applicant a on t.applicant_id=a.id
+    where 1=1
+    <if test="status!='' and status!=null and status != 2">
+      and t.status=#{status}
+    </if>
+    <if test="status!='' and status!=null and status == 2 and type != 2">
+      and t.status>=#{status}
+    </if>
+    <if test="status!='' and status!=null and status == 2 and type == 2">
+      and t.status=#{status}
+    </if>
+    <if test="tradeNum!='' and tradeNum!=null">
+      and t.trade_num=#{tradeNum}
+    </if>
+    <if test="name!=''">
+      and t.name=#{name}
+    </if>
+    <if test="startTime!='' and startTime!=null">
+      and t.create_time>=#{startTime}
+    </if>
+    <if test="endTime!='' and endTime!=null">
+      and t.create_time &lt; #{endTime}
+    </if>
+    <if test="applicantName!=''">
+      and a.apply_name=#{applicantName}
+    </if>
+    <if test="keyword!=''">
+      and ( t.name LIKE #{keyword} OR t.trade_num LIKE #{keyword} OR a.phone LIKE #{keyword})
+    </if>
+    <if test="yzDoctorId!=''  and yzDoctorId!=null ">
+      and t.yz_doctor_id = #{yzDoctorId}
+    </if>
+    <if test="hospitalId!=''  and hospitalId!=null ">
+      and t.hospital_id = #{hospitalId}
+    </if>
+
+    order by t.create_time DESC limit #{start},#{limit}
+  </select>
+
+  <select id="jdoctorTradeList" parameterType="java.lang.String"  resultMap="TradeMap">
+    --     SELECT t.*,a.apply_name,a.phone,o.id AS orderId FROM app_c_trade t LEFT JOIN app_c_order o on t.id=o.trade_id LEFT JOIN app_c_applicant a on t.applicant_id=a.id
+    SELECT t.*,a.apply_name,a.phone FROM app_c_trade t LEFT JOIN app_c_applicant a on t.applicant_id=a.id
+    where 1=1
+    <if test="status!='' and status!=null ">
+      and t.status=#{status}
+    </if>
+    <if test="doctorId!='' and doctorId!=null">
+      and t.doctor_id=#{doctorId}
+    </if>
+  </select>
+
+  <select id="tradeListTotal" parameterType="Map"  resultMap="ResultOfLong">
+--     SELECT count(1) AS total FROM app_c_trade t LEFT JOIN app_c_order o on t.id=o.trade_id LEFT JOIN app_c_applicant a on t.applicant_id=a.id
+    SELECT count(distinct t.id, a.apply_name, a.phone) AS total FROM app_c_trade t LEFT JOIN app_c_order o on t.id=o.trade_id LEFT JOIN app_c_applicant a on t.applicant_id=a.id
+    where 1=1
+    <if test="status!='' and status!=null ">
+      and t.status=#{status}
+    </if>
+
+    <if test="tradeNum!='' and tradeNum!=null ">
+      and t.trade_num=#{tradeNum}
+    </if>
+    <if test="name!=''">
+      and t.name=#{name}
+    </if>
+    <if test="startTime!='' and startTime!=null">
+      and t.create_time>=#{startTime}
+    </if>
+    <if test="endTime!='' and endTime!=null">
+      and t.create_time &lt; #{endTime}
+    </if>
+    <if test="applicantName!=''">
+      and a.apply_name=#{applicantName}
+    </if>
+    <if test="keyword!=''">
+      and ( t.name LIKE #{keyword} OR t.trade_num LIKE #{keyword} OR a.phone LIKE #{keyword})
+    </if>
+    <if test="yzDoctorId!=''  and yzDoctorId!=null ">
+      and t.yz_doctor_id = #{yzDoctorId}
+    </if>
+    <if test="hospitalId!=''  and hospitalId!=null ">
+      and t.hospital_id = #{hospitalId}
+    </if>
+  </select>
+</mapper>

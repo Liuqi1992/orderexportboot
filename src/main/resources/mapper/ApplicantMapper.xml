@@ -1,0 +1,215 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tcl.dao.ApplicantDao">
+
+
+  <resultMap id="ApplicantResultMap" type="com.tcl.vo.ApplicantVo" >
+    <id column="id" property="id" jdbcType="BIGINT"/>
+    <result column="apply_name" property="applyName" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="sfz_num" property="sfzNum" jdbcType="VARCHAR" />
+    <result column="num" property="num" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="pay_time" property="createTime" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="TradeResultMap" type="com.tcl.vo.TradeVo" >
+    <id column="id" property="id" jdbcType="BIGINT"/>
+    <result column="need_attention" property="needAttention" jdbcType="VARCHAR" />
+    <result column="hospital_name" property="hospitalName" jdbcType="VARCHAR" />
+    <result column="take_time" property="takeTime" jdbcType="TIMESTAMP" />
+    <result column="trade_num" property="tradeNum" jdbcType="VARCHAR" />
+    <result column="apply_name" property="applicantName" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="age" property="age" jdbcType="INTEGER" />
+    <result column="sex" property="sex" jdbcType="VARCHAR" />
+    <result column="sfz_num" property="sfzNum" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="ordered_time" property="orderedTime" jdbcType="TIMESTAMP" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="pay_time" property="payTime" jdbcType="TIMESTAMP" />
+
+    <result column="trade_num" property="tradeNum" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="tou_img" property="doctorUrl" jdbcType="VARCHAR" />
+    <result column="doctor_msg" property="doctorMsg" jdbcType="VARCHAR"/>
+    <result column="doctor_name" property="doctorName" jdbcType="VARCHAR"/>
+    <result column="relation_id" property="relationId" jdbcType="BIGINT"/>
+
+  </resultMap>
+
+
+  <resultMap id="ResultOfLong" type="java.lang.Long">
+    <result column="total" property="total" jdbcType="BIGINT" />
+  </resultMap>
+  <!-- ddd -->
+  <select id="list" parameterType="Map" resultMap="ApplicantResultMap">
+    SELECT a.id,GROUP_CONCAT(t.name) AS name,SUM(t.num) AS num,t.pay_time,a.apply_name,a.phone,a.sfz_num FROM app_c_trade t,app_c_applicant a where t.applicant_id=a.id
+    <if test="tradeNum!=''">
+      and t.trade_num=#{tradeNum}
+    </if>
+    <if test="status!=''">
+      and t.status>#{status}
+    </if>
+    <if test="yzdoctorId!='' and yzdoctorId!=null">
+      and t.yz_doctor_id =#{yzdoctorId}
+    </if>
+    <if test="doctorId!='' and doctorId!=null">
+      and t.doctor_id =#{doctorId}
+    </if>
+    <if test="hospitalId!='' and  hospitalId!=null">
+      and t.hospital_id =#{hospitalId}
+    </if>
+    <if test="name!=''">
+      and t.name=#{name}
+    </if>
+    <if test="startTime!=''">
+      and t.create_time>=#{startTime}
+    </if>
+    <if test="endTime!=''">
+      and t.create_time &lt; #{endTime}
+    </if>
+    <if test="applicantName!=''">
+      and a.applicant_name=#{applicantName}
+    </if>
+    <if test="keyword!='' and keyword!=null">
+      and (t.trade_num LIKE #{keyword} or a.phone LIKE #{keyword} or a.apply_name LIKE #{keyword} )
+    </if>
+    GROUP BY t.applicant_id
+    order by t.create_time
+    <if test="sort == 'desc'">
+      DESC
+    </if>
+    <if test="sort == 'asc'">
+      ASC
+    </if>
+    limit #{start},#{limit}
+
+  </select>
+  <select id="listTotal" parameterType="Map"  resultMap="ResultOfLong">
+    select count(1) as total from (
+    SELECT count(1) as total FROM app_c_trade t,app_c_applicant a where t.applicant_id=a.id
+    <if test="tradeNum!=''">
+      and t.trade_num=#{tradeNum}
+    </if>
+    <if test="status!=''">
+      and t.status>#{status}
+    </if>
+    <if test="yzdoctorId!='' and yzdoctorId!=null">
+      and t.yz_doctor_id =#{yzdoctorId}
+    </if>
+    <if test="doctorId!='' and doctorId!=null">
+      and t.doctor_id =#{doctorId}
+    </if>
+    <if test="hospitalId!='' and  hospitalId!=null">
+      and t.hospital_id =#{hospitalId}
+    </if>
+    <if test="name!=''">
+      and t.name=#{name}
+    </if>
+    <if test="startTime!=''">
+      and t.create_time>=#{startTime}
+    </if>
+    <if test="endTime!=''">
+      and t.create_time &lt; #{endTime}
+    </if>
+    <if test="applicantName!=''">
+      and a.applicant_name=#{applicantName}
+    </if>
+    <if test="keyword!='' and keyword!=null">
+      and (t.trade_num LIKE #{keyword} or a.phone LIKE #{keyword} or a.apply_name LIKE #{keyword} )
+    </if>
+    GROUP BY t.applicant_id
+    ) aa
+  </select>
+  <select id="tradeList" parameterType="java.lang.String"  resultMap="TradeResultMap">
+    SELECT t.*,a.apply_name,a.phone,a.sfz_num,a.address, a.age, a.sex, d.tou_img from app_c_trade t LEFT JOIN  app_c_applicant a ON t.applicant_id=a.id LEFT JOIN app_c_doctor d ON t.doctor_id=d.id  where t.applicant_id=a.id
+    and t.status=#{status}
+    <if test="doctorId!='' and  doctorId!=null">
+      and t.doctor_id=#{doctorId}
+    </if>
+    <if test="userId!='' and  userId!=null">
+      and t.user_id=#{userId}
+    </if>
+    <if test="createType!='' and  createType!=null">
+      and t.create_type=#{createType}
+    </if>
+  </select>
+
+  <select id="tradeListByDay"  resultMap="TradeResultMap">
+    SELECT t.*,a.apply_name,a.phone from app_c_trade t,app_c_applicant a where  t.applicant_id=a.id
+    <if test="doctorId!='' and doctorId!=null">
+      AND t.yz_doctor_id=#{doctorId}
+    </if>
+    <if test="jdoctorId!=null">
+      AND t.doctor_id=#{jdoctorId}
+    </if>
+    <if test="hospitalId!='' and hospitalId!=null">
+      AND t.hospital_id=#{hospitalId}
+    </if>
+    <if test="dayTime!=null">
+      and t.pay_time>#{dayTime}
+    </if>
+    <if test="orderedTime!=null">
+      and t.ordered_time>#{orderedTime}
+    </if>
+       and t.status>#{status} order by status asc
+  </select>
+
+  <select id="queryReport" parameterType="Map" resultMap="ReportVoMap">
+    select p.name AS packageName,p.pic_url,o.id as id,t.hospital_name,o.take_time,o.report_time,t.trade_num from app_c_order o left JOIN app_c_trade t on o.trade_id=t.id LEFT JOIN app_c_applicant a on a.id=t.applicant_id
+    left JOIN app_c_package p on o.package_id=p.id
+    where 1=1
+    <if test="name!='' and name!=null">
+      and a.apply_name = #{name}
+    </if>
+    <if test="sfzNum!='' and sfzNum!=null">
+      and a.sfz_num = #{sfzNum}
+    </if>
+    <if test="tradeNum!='' and tradeNum!=null">
+      and t.trade_num = #{tradeNum}
+    </if>
+    <if test="takeTime!='' and takeTime!=null">
+      and o.take_time > #{takeTime}
+    </if>
+    <if test="doctorId!='' and doctorId!=null">
+      and t.doctor_id = #{doctorId}
+    </if>
+    <if test="status!='' and status!=null">
+      and t.status = #{status}
+    </if>
+    <if test="orderBy!='' and orderBy!=null">
+      and t.status>0
+      order BY #{orderBy} DESC
+    </if>
+  </select>
+
+  <select id="tradeListByStatus" parameterType="java.lang.String"  resultMap="TradeResultMap">
+    SELECT t.* from app_c_trade t where 1=1
+    <if test="status!='' and status!=null">
+      and t.status=#{status}
+    </if>
+    <if test="userId!='' and  userId!=null">
+      and t.user_id=#{userId}
+    </if>
+    <if test="doctorId!='' and  doctorId!=null">
+      and t.doctor_id=#{doctorId}
+    </if>
+    <if test="sta!='' and sta!=null">
+      and ( t.status=5 OR  t.status=6)
+    </if>
+    <if test="allTrade != '' and allTrade != null">
+      and t.status >= 0
+    </if>
+    order by t.create_time DESC
+  </select>
+
+  <select id="getMyUserDetail" parameterType="java.lang.Long"  resultMap="ReportVoMap">
+    SELECT o.id,t.trade_num,t.create_time,o.report_time,o.unscramble_content,o.status, p.name AS package_name,p.pic_url from app_c_trade t LEFT JOIN app_c_order o on t.id=o.trade_id LEFT JOIN app_c_package p on o.package_id=p.id
+    where t.applicant_id=#{applyId} and t.status>1 ORDER BY t.ordered_time DESC
+
+  </select>
+
+</mapper>

@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>用户订单查询</title>
+    <script type="text/javascript" src="/js/jquery2.1.4.js"></script>
+    <style>
+        table.gridtable {
+            font-family: verdana,arial,sans-serif;
+            font-size:11px;
+            color:#333333;
+            border-width: 1px;
+            border-color: #666666;
+            border-collapse: collapse;
+        }
+        table.gridtable th {
+            border-width: 1px;
+            padding: 8px;
+            border-style: solid;
+            border-color: #666666;
+            background-color: #dedede;
+        }
+        table.gridtable td {
+            border-width: 1px;
+            padding: 8px;
+            border-style: solid;
+            border-color: #666666;
+            background-color: #ffffff;
+        }
+    </style>
+
+</head>
+<body>
+
+    <!-- Table goe s in the document BODY -->
+    <input id="tradeNum"/><button onclick="query();">查询</button>
+    <table class="gridtable">
+        <tr>
+            <th>订单编号</th><th>订单状态</th><th>病人姓名</th><th>身份证号</th><th>联系电话</th><th>地址</th>
+        </tr>
+        <tr>
+            <td>$!rlt.tradeEntity.tradeNum </td><td>$!rlt.tradeEntity.status </td><td>$!rlt.applicant.applyName </td><td>$!rlt.applicant.sfzNum </td><td>$!rlt.applicant.phone </td><td>$!rlt.applicant.address</td>
+        </tr>
+    </table>
+    <table class="gridtable">
+        <tr>
+            <th>套餐名称</th><th>数量</th><th>价格</th><th>条码号</th><th>操作</th>
+        </tr>
+        #foreach($trade in $rlt.orderList)
+            <tr>
+                <td>$!trade.packageName </td><td>$!trade.packageNum</td><td>$!trade.price</td><td><input value="$!trade.barcode" id="$!trade.id"/></td><td><button onclick="save($!trade.id);">保存</button></td>
+            </tr>
+        #end
+    </table>
+<script type="application/javascript">
+    function query(){
+        var tradeNum=$("#tradeNum").val();
+        location.href="/trade/getTradeByTradeNumWeb?tradeNum="+tradeNum;
+    }
+    function save(id){
+        var barcode=$("#"+id).val();
+        $.post("/trade/updateOrderStatus", {"barcode":barcode,"id":id},function(data) {
+            alert("保存成功！");
+        });
+    }
+
+</script>
+</body>
+</html>
