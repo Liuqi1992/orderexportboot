@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>登录</title>
+    <script type="text/javascript" src="/js/jquery2.1.4.js"></script>
+    <script type="text/javascript" src="/bootstrap-3.3.4/js/bootstrap.js"></script>
+    <title>系统登录</title>
     <style>
         * {
             margin: 0;
@@ -113,7 +115,9 @@
             return alert('请输入正确的用户名')
             //return 跳出当前函数，并且返回后面的值
         }
-        console.log(usernamevalue, passwordvalue)
+        $.post("/user/logining", {"username":usernamevalue,"password":passwordvalue},function(data) {
+            location.href ="/user/loginsys"
+        });
 
     }
 </script>
