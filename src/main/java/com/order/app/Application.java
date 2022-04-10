@@ -62,7 +62,7 @@ public class Application {
 	@ConfigurationProperties(prefix="spring.datasource")
 	public DataSource dataSource() {
 		DataSource dataSource = new DataSource();
-		dataSource.setUrl("jdbc:mysql://127.0.0.1:3306/tclapp");
+		dataSource.setUrl("jdbc:mysql://127.0.0.1:3306/orderexport");
 		dataSource.setUsername("root");
 		dataSource.setPassword("ts123456");
 		dataSource.setDriverClassName("com.mysql.jdbc.Driver");

@@ -8,11 +8,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @EnableConfigurationProperties
-public class WelcomeController {
+public class LoginController {
 	
-	@RequestMapping(value="/welcome",method=RequestMethod.GET)
-	@ResponseBody
+	@RequestMapping(value="/user/login",method=RequestMethod.GET)
 	public String welcome(){
-		return "welcome";
+		return "/vm/user/login";
 	}
 }
