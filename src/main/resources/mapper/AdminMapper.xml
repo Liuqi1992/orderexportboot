@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.order.dao.AdminDao">
+
+
+  <resultMap id="AdminResultMap" type="com.order.vo.AdminVo" >
+    <id column="id" property="id" jdbcType="BIGINT"/>
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="createtime" property="createtime" jdbcType="VARCHAR" />
+    <result column="updatetime" property="updatetime" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <!-- ddd -->
+  <select id="list" parameterType="Map" resultMap="AdminResultMap">
+    SELECT a.id, a.name, a.password, a.createtime, a.updatetime FROM admin a where 1 = 1
+    <if test="id!=null">
+      and a.id=#{id}
+    </if>
+    <if test="name!=''">
+      and a.name=#{name}
+    </if>
+    order by a.createtime DESC
+  </select>
+
+
+</mapper>

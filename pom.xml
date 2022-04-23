@@ -52,6 +52,7 @@
           <artifactId>javax.servlet-api</artifactId>
           <scope>provided</scope>
       </dependency>
+
       <!-- 使用 Spring Boot 默认的 Tomcat 作为应用服务器。-->
       <dependency>
           <groupId>org.springframework.boot</groupId>

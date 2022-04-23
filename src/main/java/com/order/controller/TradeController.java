@@ -33,10 +33,6 @@ public class TradeController {
 		return "tradequery";
 	}
 
-
-
-
-
 	public class Result {
 		private int rlt;
 		private String txt;

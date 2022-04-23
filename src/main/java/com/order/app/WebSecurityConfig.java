@@ -43,6 +43,8 @@ public class WebSecurityConfig extends WebMvcConfigurerAdapter {
         addInterceptor.excludePathPatterns("/user/checkCode*");
         addInterceptor.excludePathPatterns("/user/register*");
 
+        addInterceptor.excludePathPatterns("/index");
+
         addInterceptor.excludePathPatterns("/trade/getTradeByTradeNumWeb");
 
         // 拦截配置
