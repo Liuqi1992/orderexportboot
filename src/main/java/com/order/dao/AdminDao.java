@@ -8,5 +8,5 @@ import java.util.Map;
  */
 public interface AdminDao {
 
-    public List list(Map<String, Object> map);
+    List list(Map<String, Object> map);
 }

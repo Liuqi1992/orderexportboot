@@ -4,7 +4,7 @@
 <mapper namespace="com.order.dao.ApplicantDao">
 
 
-  <resultMap id="ApplicantResultMap" type="com.order.vo.ApplicantVo" >
+  <resultMap id="ApplicantResultMap" type="com.order.model.ApplicantVo" >
     <id column="id" property="id" jdbcType="BIGINT"/>
     <result column="apply_name" property="applyName" jdbcType="VARCHAR" />
     <result column="phone" property="phone" jdbcType="VARCHAR" />
@@ -13,7 +13,7 @@
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="pay_time" property="createTime" jdbcType="VARCHAR" />
   </resultMap>
-  <resultMap id="TradeResultMap" type="com.order.vo.TradeVo" >
+  <resultMap id="TradeResultMap" type="com.order.model.TradeVo" >
     <id column="id" property="id" jdbcType="BIGINT"/>
     <result column="need_attention" property="needAttention" jdbcType="VARCHAR" />
     <result column="hospital_name" property="hospitalName" jdbcType="VARCHAR" />

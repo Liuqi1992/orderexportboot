@@ -1,9 +1,9 @@
-package com.order.vo;
+package com.order.model;
 
 /**
  * Created by wang on 2017-06-20.
  */
-public class AdminVo {
+public class AdminModel {
 
     private Long id;
 

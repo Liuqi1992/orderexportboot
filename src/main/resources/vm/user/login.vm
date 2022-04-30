@@ -121,9 +121,9 @@
                 layer.msg('登录成功', {
                     icon: 6,
                     offset: 't',
-                    time: 2000
+                    time: 1000
                 },function(){
-                    location.href ="/user/logining"
+                    location.href ="/system/page"
                 });
             } else {
                 layer.msg(data.txt);

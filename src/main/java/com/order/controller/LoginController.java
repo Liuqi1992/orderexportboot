@@ -1,9 +1,8 @@
 package com.order.controller;
 
 import com.order.service.AdminService;
-import com.order.vo.AdminVo;
+import com.order.model.AdminModel;
 import org.apache.commons.httpclient.HttpStatus;
-import org.json.HTTP;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -37,10 +36,10 @@ public class LoginController {
         rlt.setRlt(200);
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("name", username);
-        List<AdminVo> list = adminService.list(map);
+        List<AdminModel> list = adminService.list(map);
         boolean flag = false;
         if (list.size() > 0) {
-            AdminVo admin = list.get(0);
+            AdminModel admin = list.get(0);
             if (password.equals(admin.getPassword())) {
                 flag = true;
             }
@@ -52,9 +51,9 @@ public class LoginController {
 	    return rlt;
     }
 
-    @RequestMapping(value = "/user/logining", method=RequestMethod.GET)
-    public String loginsys() {
-        return "/vm/system/login";
+    @RequestMapping(value = "/system/page", method=RequestMethod.GET)
+    public String systemPage() {
+        return "/vm/system/page";
     }
 
     public class Result {
