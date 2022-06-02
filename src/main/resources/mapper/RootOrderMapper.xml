@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.order.dao.RootOrderDao" >
+  <resultMap id="BaseResultMap" type="com.order.pojo.RootOrderEntity" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="order_number" property="orderNumber" jdbcType="VARCHAR" />
+    <result column="order_name" property="orderName" jdbcType="VARCHAR" />
+    <result column="sales" property="sales" jdbcType="DECIMAL" />
+    <result column="custom_id" property="customId" jdbcType="VARCHAR" />
+    <result column="custom_name" property="customName" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+    <result column="deleted" property="deleted" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, order_number, order_name, sales, custom_id, custom_name, create_time, update_time, 
+    deleted
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from root_order
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from root_order
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.order.pojo.RootOrderEntity" >
+    insert into root_order (id, order_number, order_name, 
+      sales, custom_id, custom_name, 
+      create_time, update_time, deleted
+      )
+    values (#{id,jdbcType=VARCHAR}, #{orderNumber,jdbcType=VARCHAR}, #{orderName,jdbcType=VARCHAR}, 
+      #{sales,jdbcType=DECIMAL}, #{customId,jdbcType=VARCHAR}, #{customName,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR}, #{deleted,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.order.pojo.RootOrderEntity" >
+    insert into root_order
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="orderNumber != null" >
+        order_number,
+      </if>
+      <if test="orderName != null" >
+        order_name,
+      </if>
+      <if test="sales != null" >
+        sales,
+      </if>
+      <if test="customId != null" >
+        custom_id,
+      </if>
+      <if test="customName != null" >
+        custom_name,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="deleted != null" >
+        deleted,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNumber != null" >
+        #{orderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="orderName != null" >
+        #{orderName,jdbcType=VARCHAR},
+      </if>
+      <if test="sales != null" >
+        #{sales,jdbcType=DECIMAL},
+      </if>
+      <if test="customId != null" >
+        #{customId,jdbcType=VARCHAR},
+      </if>
+      <if test="customName != null" >
+        #{customName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.order.pojo.RootOrderEntity" >
+    update root_order
+    <set >
+      <if test="orderNumber != null" >
+        order_number = #{orderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="orderName != null" >
+        order_name = #{orderName,jdbcType=VARCHAR},
+      </if>
+      <if test="sales != null" >
+        sales = #{sales,jdbcType=DECIMAL},
+      </if>
+      <if test="customId != null" >
+        custom_id = #{customId,jdbcType=VARCHAR},
+      </if>
+      <if test="customName != null" >
+        custom_name = #{customName,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="deleted != null" >
+        deleted = #{deleted,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.order.pojo.RootOrderEntity" >
+    update root_order
+    set order_number = #{orderNumber,jdbcType=VARCHAR},
+      order_name = #{orderName,jdbcType=VARCHAR},
+      sales = #{sales,jdbcType=DECIMAL},
+      custom_id = #{customId,jdbcType=VARCHAR},
+      custom_name = #{customName,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=VARCHAR},
+      deleted = #{deleted,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+    <select id="listPage" resultMap="BaseResultMap" parameterType="java.util.Map" >
+        select
+        <include refid="Base_Column_List" />
+        from root_order
+        where 1 = 1
+        <if test="id != null and id!=''">
+            and id = #{id,jdbcType=VARCHAR}
+        </if>
+        AND deleted = 'F'
+        ORDER BY create_time DESC
+        limit #{startNum, jdbcType=INTEGER}, #{limit, jdbcType=INTEGER}
+    </select>
+
+    <select id="countNum" resultType="java.lang.Long" parameterType="java.util.Map" >
+        select count(1) from root_order
+        where 1 = 1
+        <if test="id != null and id!=''">
+            and id = #{id,jdbcType=VARCHAR}
+        </if>
+        AND deleted = 'F'
+    </select>
+
+    <update id="batchDelete" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" close="" open="" separator=";">
+            update root_order set deleted = 'T', update_time = #{item.updateTime, jdbcType=VARCHAR}
+            where id = #{item.id, jdbcType=VARCHAR}
+        </foreach>
+    </update>
+</mapper>

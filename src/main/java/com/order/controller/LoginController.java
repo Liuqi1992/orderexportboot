@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -25,13 +26,19 @@ public class LoginController {
     private AdminService adminService;
 	
 	@RequestMapping(value="/index",method=RequestMethod.GET)
-	public String login(){
-		return "/vm/user/login";
-	}
+    public String login(){
+        return "/vm/admin/login";
+    }
 
-	@RequestMapping(value = "/user/login", method=RequestMethod.POST)
+    @RequestMapping(value="/admin/loginout",method=RequestMethod.GET)
+    public String loginOut(HttpServletRequest request){
+        request.getSession().setAttribute("adminName","");
+        return "/vm/admin/login";
+    }
+
+	@RequestMapping(value = "/admin/login", method=RequestMethod.POST)
     @ResponseBody
-	public Result logining(@RequestParam String username, @RequestParam String password) {
+	public Result logining(HttpServletRequest request, @RequestParam String username, @RequestParam String password) {
 	    Result rlt = new Result();
         rlt.setRlt(200);
         Map<String, Object> map = new HashMap<String, Object>();
@@ -41,6 +48,8 @@ public class LoginController {
         if (list.size() > 0) {
             AdminModel admin = list.get(0);
             if (password.equals(admin.getPassword())) {
+                request.getSession().setAttribute("adminName",admin.getName());
+                request.getSession().setMaxInactiveInterval(2 * 60 *60);
                 flag = true;
             }
         }

@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <script type="text/javascript" src="/js/jquery2.1.4.js"></script>
+    <link type="text/css" rel="stylesheet" href="/layui/css/layui.css"  media="all">
+    <script type="text/javascript" src="/layui/layui.js" charset="utf-8"></script>
+    <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+</head>
+<body>
+
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo layui-hide-xs layui-bg-black">订单系统</div>
+        <!-- 头部区域（可配合layui 已有的水平导航） -->
+        <ul class="layui-nav layui-layout-left">
+            <!-- 移动端显示 -->
+            <li class="layui-nav-item layui-show-xs-inline-block layui-hide-sm" lay-header-event="menuLeft">
+                <i class="layui-icon layui-icon-spread-left"></i>
+            </li>
+
+##            <li class="layui-nav-item layui-hide-xs"><a href="">订单系统</a></li>
+        </ul>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item layui-hide layui-show-md-inline-block">
+                <a href="javascript:;">
+                    <img src="/img/login.jpg" class="layui-nav-img">
+                    admin
+                </a>
+                <dl class="layui-nav-child">
+##                    <dd><a href="">Your Profile</a></dd>
+##                    <dd><a href="">Settings</a></dd>
+                    <dd><a href="/admin/loginout">退出登录</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item" lay-header-event="menuRight" lay-unselect>
+                <a href="javascript:;">
+                    <i class="layui-icon layui-icon-more-vertical"></i>
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree" lay-filter="test">
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">产品管理</a>
+                    <dl class="layui-nav-child">
+##                      <dd><a href="javascript:;">list 1</a></dd>
+                        <dd><a href="/product/listPage">产品列表</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">客户管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="/custom/listPage">客户列表</a></dd>
+                    </dl>
+                </li>
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">订单管理</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="/rootorder/listPage">主订单列表</a></dd>
+                    </dl>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="layui-body">
+        <div class="layui-table-tool">
+            <button type="button" class="layui-btn" onclick="addOrder()">增加</button>
+            <button type="button" class="layui-btn" id="deleteOrder">删除</button>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            主订单号: <a style="font-weight: bold">$!{rootOrder.orderNumber}</a>
+            &nbsp;&nbsp;&nbsp;
+            主订单名称: <a style="font-weight: bold">$!{rootOrder.orderName}</a>
+        </div>
+        <!-- 内容主体区域 -->
+        <table class="layui-table" lay-data="{url:'/order/list?rootOrderId=$!{rootOrderId}', page:true, id:'idTest'}" lay-filter="demo">
+            <thead>
+            <tr>
+                <th lay-data="{type:'checkbox', fixed: 'left'}"></th>
+                <th lay-data="{field:'sortNum', width:'5%', fixed: true}">序号</th>
+                <th lay-data="{field:'orderResource', width:'12%', fixed: true}">订单资源</th>
+                <th lay-data="{field:'number', width:'12%'}">数量</th>
+                <th lay-data="{field:'orderDate', width:'20%'}">下单日期</th>
+                <th lay-data="{field:'departDate', width:'15%'}">出发日期</th>
+                <th lay-data="{field:'orderAmount', width:'15%'}">订单金额</th>
+                <th lay-data="{fixed: 'right', align:'center', toolbar: '#barDemo'}"></th>
+            </tr>
+            </thead>
+        </table>
+
+        <script type="text/html" id="barDemo">
+            <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+            <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
+            <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+        </script>
+    </div>
+
+    <div class="layui-footer">
+        <!-- 底部固定区域 -->
+        <dl align="center">bottom area</dl>
+    </div>
+</div>
+
+<div id="add_order" style="display: none;">
+    <br/>
+    <form id="add_order_form" class="layui-form" action="">
+    <div class="layui-form-item">
+        <input type="hidden" name="rootOrderId" value="$!{rootOrder.id}">
+        <input type="hidden" name="orderNumber" value="$!{rootOrder.orderNumber}">
+        <label class="layui-form-label" style="width: 100px">订单资源：</label>
+        <div class="layui-input-block">
+            <input type="text" name="orderResource" required lay-verify="required" autocomplete="off" class="layui-input" style="width: 260px"/>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px">数量：</label>
+        <div class="layui-input-inline">
+            <input type="text" name="number" required lay-verify="required" autocomplete="off" class="layui-input" style="width: 260px"/>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px">下单日期：</label>
+        <div class="layui-input-block">
+            <input type="text" name="orderDate" id="orderDate" required lay-verify="required" autocomplete="off" class="layui-input" placeholder="yyyy-MM-dd" style="width: 260px"/>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px">出发日期：</label>
+        <div class="layui-input-block">
+            <input type="text" name="departDate" id="departDate" required lay-verify="required" autocomplete="off" class="layui-input" placeholder="yyyy-MM-dd" style="width: 260px"/>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px">订单金额：</label>
+        <div class="layui-input-block">
+            <input type="text" name="orderAmount" required lay-verify="required" autocomplete="off" class="layui-input" style="width: 260px"/>
+        </div>
+    </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 100px">成本：</label>
+            <div class="layui-input-block">
+                <input type="text" name="cost" required lay-verify="required" autocomplete="off" class="layui-input" style="width: 260px"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 100px">供应商：</label>
+            <div class="layui-input-block">
+                <input type="text" name="supplier" required lay-verify="required" autocomplete="off" class="layui-input" style="width: 260px"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 100px">出游人信息：</label>
+            <div class="layui-input-block">
+                <input type="text" name="touristInfo" required lay-verify="required" autocomplete="off" class="layui-input" style="width: 260px"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 100px">收款账户：</label>
+            <div class="layui-input-block">
+                <input type="text" name="billAccount" required lay-verify="required" autocomplete="off" class="layui-input" style="width: 260px"/>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div id="edit_order" style="display: none;">
+    <br/>
+    <form id="edit_order_form" class="layui-form" action="">
+        <div class="layui-form-item">
+            <input type="hidden" name="id" id="editId">
+            <label class="layui-form-label" style="width: 100px">订单资源：</label>
+            <div class="layui-input-block">
+                <input type="text" name="orderResource" id="editOrderResource" autocomplete="off" required lay-verify="required" class="layui-input" style="width: 260px"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 100px">数量：</label>
+            <div class="layui-input-inline">
+                <input type="text" name="number" id="editNumber" autocomplete="off" required lay-verify="required" class="layui-input" style="width: 260px"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 100px">下单日期：</label>
+            <div class="layui-input-block">
+                <input type="text" name="orderDate" id="editOrderDate" required lay-verify="required" autocomplete="off" class="layui-input" placeholder="yyyy-MM-dd" style="width: 260px"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 100px">出发日期：</label>
+            <div class="layui-input-block">
+                <input type="text" name="departDate" id="editDepartDate" required lay-verify="required" autocomplete="off" class="layui-input" placeholder="yyyy-MM-dd" style="width: 260px"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 100px">订单金额：</label>
+            <div class="layui-input-block">
+                <input type="text" name="orderAmount" id="editOrderAmount" required lay-verify="required" autocomplete="off" class="layui-input" style="width: 260px"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 100px">成本：</label>
+            <div class="layui-input-block">
+                <input type="text" name="cost" id="editCost" required lay-verify="required" autocomplete="off" class="layui-input" style="width: 260px"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 100px">供应商：</label>
+            <div class="layui-input-block">
+                <input type="text" name="supplier" id="editSupplier" required lay-verify="required" autocomplete="off" class="layui-input" style="width: 260px"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 100px">出游人信息：</label>
+            <div class="layui-input-block">
+                <input type="text" name="touristInfo" id="editTouristInfo" required lay-verify="required" autocomplete="off" class="layui-input" style="width: 260px"/>
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 100px">收款账户：</label>
+            <div class="layui-input-block">
+                <input type="text" name="billAccount" id="editBillAccount" required lay-verify="required" autocomplete="off" class="layui-input" style="width: 260px"/>
+            </div>
+        </div>
+    </form>
+</div>
+
+<div id="order_detail" style="display: none">
+    <table class="layui-table">
+        <thead>
+        <tr><td width="20%">子订单ID：</td><td id="detail_order_id"></td></tr>
+        <tr><td width="20%">订单资源：</td><td id="detail_order_resource"></td></tr>
+        <tr><td width="20%">数量：</td><td id="detail_number"></td></tr>
+        <tr><td width="20%">下单日期：</td><td id="detail_order_date"></td></tr>
+        <tr><td width="20%">出发日期：</td><td id="detail_depart_date"></td></tr>
+        <tr><td width="20%">订单金额：</td><td id="detail_order_amount"></td></tr>
+        <tr><td width="20%">成本：</td><td id="detail_cost"></td></tr>
+        <tr><td width="20%">供应商：</td><td id="detail_supplier"></td></tr>
+        <tr><td width="20%">出游人信息：</td><td id="detail_tourist_info"></td></tr>
+        <tr><td width="20%">收款账户：</td><td id="detail_bill_account"></td></tr>
+        <tr><td width="20%">创建时间：</td><td id="detail_create_time"></td></tr>
+        <tr><td width="20%">修改时间：</td><td id="detail_update_time"></td></tr>
+        </thead>
+    </table>
+</div>
+<script>
+    //JS
+    layui.use(['element', 'layer', 'util'], function(){
+        var element = layui.element
+                ,layer = layui.layer
+                ,util = layui.util
+                ,$ = layui.$;
+
+        //头部事件
+        util.event('lay-header-event', {
+            //左侧菜单事件
+            menuLeft: function(othis){
+                layer.msg('展开左侧菜单的操作', {icon: 0});
+            }
+            ,menuRight: function(){
+                layer.open({
+                    type: 1
+                    ,content: '<div style="padding: 15px;">处理右侧面板的操作</div>'
+                    ,area: ['260px', '100%']
+                    ,offset: 'rt' //右上角
+                    ,anim: 5
+                    ,shadeClose: true
+                });
+            }
+        });
+
+    });
+</script>
+
+<script type="text/javascript" src="/js/order/add.js" charset="utf-8"></script>
+<script type="text/javascript" src="/js/order/delete.js" charset="utf-8"></script>
+
+<script>
+    layui.use('laydate', function(){
+        var laydate = layui.laydate;
+        laydate.render({
+            elem: '#orderDate'
+        });
+        laydate.render({
+            elem: '#editOrderDate'
+        });
+        laydate.render({
+            elem: '#departDate'
+        });
+        laydate.render({
+            elem: '#editDepartDate'
+        });
+    });
+
+    layui.use(['table', 'form'], function() {
+        var table = layui.table;
+        //监听工具条
+        table.on('tool(demo)', function (obj) {
+            var data = obj.data;
+            if (obj.event === 'detail') {
+                $("#detail_order_id")[0].innerText = data.id;
+                $("#detail_order_resource")[0].innerText = data.orderResource;
+                $("#detail_number")[0].innerText = data.number;
+                $("#detail_order_date")[0].innerText = data.orderDate;
+                $("#detail_depart_date")[0].innerText = data.departDate;
+                $("#detail_order_amount")[0].innerText = data.orderAmount;
+                $("#detail_cost")[0].innerText = data.cost;
+                $("#detail_supplier")[0].innerText = data.supplier;
+                $("#detail_tourist_info")[0].innerText = data.touristInfo;
+                $("#detail_bill_account")[0].innerText = data.billAccount;
+                $("#detail_create_time")[0].innerText = data.createTime;
+                $("#detail_update_time")[0].innerText = data.updateTime;
+                layer.open({
+                    type: 1,
+                    title: '子订单详情',
+                    area: ["560px", "630px"],
+                    content: $("#order_detail"),
+                    btn: "确定",
+                    yes: function (index, layero) {
+                        layer.close(index);
+                    }
+                });
+            } else if (obj.event === 'del') {
+                layer.confirm('确定要删除子订单吗？', function (index) {
+                    deleteOrder(data.id);
+                    layer.close(index);
+                });
+            } else if (obj.event === 'edit') {
+                $("#editOrderResource").val(data.orderResource);
+                $("#editNumber").val(data.number);
+                $("#editOrderDate").val(data.orderDate);
+                $("#editDepartDate").val(data.departDate);
+                $("#editOrderAmount").val(data.orderAmount);
+                $("#editCost").val(data.cost);
+                $("#editSupplier").val(data.supplier);
+                $("#editTouristInfo").val(data.touristInfo);
+                $("#editBillAccount").val(data.billAccount);
+                $("#editId").val(data.id);
+                var form = layui.form;
+                layer.open({
+                    type: 1,
+                    title: "编辑子订单",
+                    area: ["560px", "620px"],
+                    content: $("#edit_order"),
+                    btn: ["编辑", "取消"],
+                    yes: function(index, layero) {
+                        $.ajax({
+                            url: "/order/edit",
+                            type: "PUT",
+                            data: $("#edit_order_form").serializeArray(),
+                            dataType: "json",
+                            success: function(data) {
+                                if(data.code == 0) {
+                                    layer.msg("更新成功", {
+                                        time: 1000
+                                    });
+                                } else {
+                                    var msg = "更新失败:" + data.msg
+                                    layer.msg(msg, {
+                                        time: 1000
+                                    });
+                                }
+                                setTimeout(function() {
+                                    location.reload();
+                                }, 1000)
+                            },
+                            error: function(er) {
+                                console.log(er);
+                            }
+                        });
+                    },
+                    btn2: function(index, layero) {
+                        layer.close(index);
+                    }
+                });
+                form.render();
+            }
+        });
+    })
+
+    layui.use('table', function () {
+        var table = layui.table;
+        $("#deleteOrder").on("click", function () {
+            var checkStatus = table.checkStatus('idTest'), data = checkStatus.data;
+            if(data.length < 1) {
+                layer.alert('选中个数需大于0');
+                return;
+            }
+            var ids = '', index=0;
+            while (index < data.length) {
+                ids = ids + data[index].id + ",";
+                index++;
+            }
+            layer.confirm('确定要删除吗？', function (index) {
+                deleteOrder(ids);
+                layer.close(index);
+            });
+        })
+    })
+</script>
+
+</body>
+</html>

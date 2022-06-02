@@ -4,7 +4,7 @@
 <mapper namespace="com.order.dao.AdminDao">
 
 
-  <resultMap id="AdminResultMap" type="com.order.model.AdminEntity" >
+  <resultMap id="AdminResultMap" type="com.order.pojo.AdminEntity" >
     <id column="id" property="id" jdbcType="BIGINT"/>
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="password" property="password" jdbcType="VARCHAR" />
@@ -13,7 +13,7 @@
   </resultMap>
 
   <!-- ddd -->
-  <select id="list" parameterType="Map" resultMap="AdminResultMap">
+  <select id="list" parameterType="java.util.Map" resultMap="AdminResultMap">
     SELECT a.id, a.name, a.password, a.createtime, a.updatetime FROM admin a where 1 = 1
     <if test="id!=null">
       and a.id=#{id}

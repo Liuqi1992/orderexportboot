@@ -74,20 +74,20 @@
 
     <div class="layui-body">
         <div class="layui-table-tool">
-            <button type="button" class="layui-btn" onclick="addProduct()">增加</button>
-            <button type="button" class="layui-btn" id="deleteProduct">删除</button>
+            <button type="button" class="layui-btn" onclick="addCustom()">增加</button>
+            <button type="button" class="layui-btn" id="deleteCustom">删除</button>
         </div>
         <!-- 内容主体区域 -->
-        <table class="layui-table" lay-data="{url:'/product/list', page:true, id:'idTest'}" lay-filter="demo">
+        <table class="layui-table" lay-data="{url:'/custom/list', page:true, id:'idTest'}" lay-filter="demo">
             <thead>
             <tr>
                 <th lay-data="{type:'checkbox', fixed: 'left'}"></th>
                 <th lay-data="{field:'sortNum', width:'5%', fixed: true}">序号</th>
-                <th lay-data="{field:'productName', width:'15%'}">产品名称</th>
-                <th lay-data="{field:'departDate', width:'15%'}">出发日期</th>
-                <th lay-data="{field:'stock', width:'15%'}">库存</th>
-                <th lay-data="{field:'saleOutNum', width:'15%'}">已售</th>
-                <th lay-data="{field:'leftNum', width:'15%'}">余位</th>
+                <th lay-data="{field:'supplierName', width:'12%', fixed: true}">供应商名称</th>
+                <th lay-data="{field:'collectionAccount', width:'12%'}">收款账户</th>
+                <th lay-data="{field:'collectionAccountNumber', width:'20%'}">收款账号</th>
+                <th lay-data="{field:'depositBank', width:'15%'}">开户行</th>
+                <th lay-data="{field:'alipay', width:'15%'}">支付宝</th>
                 <th lay-data="{fixed: 'right', align:'center', toolbar: '#barDemo'}"></th>
             </tr>
             </thead>
@@ -106,68 +106,126 @@
     </div>
 </div>
 
-<div id="add_product" style="display: none;">
+<div id="add_custom" style="display: none;">
     <br/>
-    <form id="add_product_form" class="layui-form" action="">
+    <form id="add_custom_form" class="layui-form" action="">
     <div class="layui-form-item">
-        <label class="layui-form-label" style="width: 100px">产品名称：</label>
+        <label class="layui-form-label" style="width: 100px">供应商名称：</label>
         <div class="layui-input-block">
-            <input type="text" name="productName" required lay-verify="required" autocomplete="off" class="layui-input" style="width: 260px"/>
+            <input type="text" name="supplierName" required lay-verify="required" autocomplete="off" class="layui-input" style="width: 260px"/>
         </div>
     </div>
 
     <div class="layui-form-item">
-        <label class="layui-form-label" style="width: 100px">出发日期：</label>
+        <label class="layui-form-label" style="width: 100px">联系人：</label>
         <div class="layui-input-inline">
-            <input type="text" name="departDate" id="departDate" required lay-verify="required" autocomplete="off" class="layui-input" placeholder="yyyy-MM-dd" style="width: 260px"/>
+            <input type="text" name="linkman" required lay-verify="required" autocomplete="off" class="layui-input" style="width: 260px"/>
         </div>
     </div>
 
     <div class="layui-form-item">
-        <label class="layui-form-label" style="width: 100px">库存：</label>
+        <label class="layui-form-label" style="width: 100px">联系方式：</label>
         <div class="layui-input-block">
-            <input type="text" name="stock" required lay-verify="required" autocomplete="off" class="layui-input" style="width: 260px"/>
+            <input type="text" name="contact" required lay-verify="required" autocomplete="off" class="layui-input" style="width: 260px"/>
         </div>
     </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px">收款账户：</label>
+        <div class="layui-input-block">
+            <input type="text" name="collectionAccount" required lay-verify="required" autocomplete="off" class="layui-input" style="width: 260px"/>
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <label class="layui-form-label" style="width: 100px">收款账号：</label>
+        <div class="layui-input-block">
+            <input type="text" name="collectionAccountNumber" required lay-verify="required" autocomplete="off" class="layui-input" style="width: 260px"/>
+        </div>
+    </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 100px">开户行：</label>
+            <div class="layui-input-block">
+                <input type="text" name="depositBank" required lay-verify="required" autocomplete="off" class="layui-input" style="width: 260px"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 100px">支付宝：</label>
+            <div class="layui-input-block">
+                <input type="text" name="alipay" required lay-verify="required" autocomplete="off" class="layui-input" style="width: 260px"/>
+            </div>
+        </div>
     </form>
 </div>
 
-<div id="edit_product" style="display: none;">
+<div id="edit_custom" style="display: none;">
     <br/>
-    <form id="edit_product_form" class="layui-form" action="">
+    <form id="edit_custom_form" class="layui-form" action="">
         <div class="layui-form-item">
             <input type="hidden" name="id" id="editId">
-            <label class="layui-form-label" style="width: 100px">产品名称：</label>
+            <label class="layui-form-label" style="width: 100px">供应商名称：</label>
             <div class="layui-input-block">
-                <input type="text" name="productName" id="editProductName" autocomplete="off" required lay-verify="required" class="layui-input" style="width: 260px"/>
+                <input type="text" name="supplierName" id="editSupplierName" autocomplete="off" required lay-verify="required" class="layui-input" style="width: 260px"/>
             </div>
         </div>
 
         <div class="layui-form-item">
-            <label class="layui-form-label" style="width: 100px">出发日期：</label>
+            <label class="layui-form-label" style="width: 100px">联系人：</label>
             <div class="layui-input-inline">
-                <input type="text" name="departDate" id="editDepartDate" autocomplete="off" required lay-verify="required" class="layui-input" placeholder="yyyy-MM-dd" style="width: 260px"/>
+                <input type="text" name="linkman" id="editLinkman" autocomplete="off" required lay-verify="required" class="layui-input" style="width: 260px"/>
             </div>
         </div>
 
         <div class="layui-form-item">
-            <label class="layui-form-label" style="width: 100px">库存：</label>
+            <label class="layui-form-label" style="width: 100px">联系方式：</label>
             <div class="layui-input-block">
-                <input type="text" name="stock" id="editStock" required lay-verify="required" autocomplete="off" class="layui-input" style="width: 260px"/>
+                <input type="text" name="contact" id="editContact" required lay-verify="required" autocomplete="off" class="layui-input" style="width: 260px"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 100px">收款账户：</label>
+            <div class="layui-input-block">
+                <input type="text" name="collectionAccount" id="editCollectionAccount" required lay-verify="required" autocomplete="off" class="layui-input" style="width: 260px"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 100px">收款账号：</label>
+            <div class="layui-input-block">
+                <input type="text" name="collectionAccountNumber" id="editCollectionAccountNumber" required lay-verify="required" autocomplete="off" class="layui-input" style="width: 260px"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 100px">开户行：</label>
+            <div class="layui-input-block">
+                <input type="text" name="depositBank" id="editDepositBank" required lay-verify="required" autocomplete="off" class="layui-input" style="width: 260px"/>
+            </div>
+        </div>
+
+        <div class="layui-form-item">
+            <label class="layui-form-label" style="width: 100px">联系方式：</label>
+            <div class="layui-input-block">
+                <input type="text" name="alipay" id="editAlipay" required lay-verify="required" autocomplete="off" class="layui-input" style="width: 260px"/>
             </div>
         </div>
     </form>
 </div>
 
-<div id="product_detail" style="display: none">
+<div id="custom_detail" style="display: none">
     <table class="layui-table">
         <thead>
-        <tr><td width="20%">产品ID：</td><td id="detail_product_id"></td></tr>
-        <tr><td width="20%">产品名称：</td><td id="detail_product_name"></td></tr>
-        <tr><td width="20%">出发日期：</td><td id="detail_depart_date"></td></tr>
-        <tr><td width="20%">库存：</td><td id="detail_stock"></td></tr>
-        <tr><td width="20%">已售：</td><td id="detail_sale_out_num"></td></tr>
-        <tr><td width="20%">余位：</td><td id="detail_left_num"></td></tr>
+        <tr><td width="20%">客户ID：</td><td id="detail_custom_id"></td></tr>
+        <tr><td width="20%">供应商名称：</td><td id="detail_supplier_name"></td></tr>
+        <tr><td width="20%">联系人：</td><td id="detail_link_man"></td></tr>
+        <tr><td width="20%">联系方式：</td><td id="detail_contact"></td></tr>
+        <tr><td width="20%">收款账户：</td><td id="detail_collection_account"></td></tr>
+        <tr><td width="20%">收款账号：</td><td id="detail_collection_account_number"></td></tr>
+        <tr><td width="20%">开户行：</td><td id="detail_deposit_bank"></td></tr>
+        <tr><td width="20%">支付宝：</td><td id="detail_alipay"></td></tr>
         <tr><td width="20%">创建时间：</td><td id="detail_create_time"></td></tr>
         <tr><td width="20%">修改时间：</td><td id="detail_update_time"></td></tr>
         </thead>
@@ -202,66 +260,62 @@
     });
 </script>
 
-<script type="text/javascript" src="/js/product/add.js" charset="utf-8"></script>
-<script type="text/javascript" src="/js/product/delete.js" charset="utf-8"></script>
+<script type="text/javascript" src="/js/custom/add.js" charset="utf-8"></script>
+<script type="text/javascript" src="/js/custom/delete.js" charset="utf-8"></script>
 
 <script>
-    layui.use('laydate', function(){
-        var laydate = layui.laydate;
-        laydate.render({
-            elem: '#departDate'
-        });
-        laydate.render({
-            elem: '#editDepartDate'
-        });
-    });
-
     layui.use(['table', 'form'], function() {
         var table = layui.table;
         //监听工具条
         table.on('tool(demo)', function (obj) {
             var data = obj.data;
             if (obj.event === 'detail') {
-                $("#detail_product_id")[0].innerText = data.id;
-                $("#detail_product_name")[0].innerText = data.productName;
-                $("#detail_depart_date")[0].innerText = data.departDate;
-                $("#detail_stock")[0].innerText = data.stock;
-                $("#detail_sale_out_num")[0].innerText = data.saleOutNum;
-                $("#detail_left_num")[0].innerText = data.leftNum;
+                $("#detail_custom_id")[0].innerText = data.id;
+                $("#detail_supplier_name")[0].innerText = data.supplierName;
+                $("#detail_link_man")[0].innerText = data.linkman;
+                $("#detail_contact")[0].innerText = data.contact;
+                $("#detail_collection_account")[0].innerText = data.collectionAccount;
+                $("#detail_collection_account_number")[0].innerText = data.collectionAccountNumber;
+                $("#detail_deposit_bank")[0].innerText = data.depositBank;
+                $("#detail_alipay")[0].innerText = data.alipay;
                 $("#detail_create_time")[0].innerText = data.createTime;
                 $("#detail_update_time")[0].innerText = data.updateTime;
                 layer.open({
                     type: 1,
-                    title: '产品详情',
-                    area: ["560px", "520px"],
-                    content: $("#product_detail"),
+                    title: '客户详情',
+                    area: ["560px", "630px"],
+                    content: $("#custom_detail"),
                     btn: "确定",
                     yes: function (index, layero) {
                         layer.close(index);
                     }
                 });
             } else if (obj.event === 'del') {
-                layer.confirm('确定要删除该产品吗？', function (index) {
-                    deleteProduct(data.id);
+                layer.confirm('确定要删除该客户吗？', function (index) {
+                    deleteCustom(data.id);
                     layer.close(index);
                 });
             } else if (obj.event === 'edit') {
-                $("#editProductName").val(data.productName);
-                $("#editDepartDate").val(data.departDate);
-                $("#editStock").val(data.stock);
+                $("#editSupplierName").val(data.supplierName);
+                $("#editLinkman").val(data.linkman);
+                $("#editContact").val(data.contact);
+                $("#editCollectionAccount").val(data.collectionAccount);
+                $("#editCollectionAccountNumber").val(data.collectionAccountNumber);
+                $("#editDepositBank").val(data.depositBank);
+                $("#editAlipay").val(data.alipay);
                 $("#editId").val(data.id);
                 var form = layui.form;
                 layer.open({
                     type: 1,
-                    title: "编辑产品",
-                    area: ["560px", "360px"],
-                    content: $("#edit_product"),
+                    title: "编辑客户",
+                    area: ["560px", "580px"],
+                    content: $("#edit_custom"),
                     btn: ["编辑", "取消"],
                     yes: function(index, layero) {
                         $.ajax({
-                            url: "/product/edit",
+                            url: "/custom/edit",
                             type: "PUT",
-                            data: $("#edit_product_form").serializeArray(),
+                            data: $("#edit_custom_form").serializeArray(),
                             dataType: "json",
                             success: function(data) {
                                 if(data.code == 0) {
@@ -294,7 +348,7 @@
 
     layui.use('table', function () {
         var table = layui.table;
-        $("#deleteProduct").on("click", function () {
+        $("#deleteCustom").on("click", function () {
             var checkStatus = table.checkStatus('idTest'), data = checkStatus.data;
             if(data.length < 1) {
                 layer.alert('选中个数需大于0');
@@ -306,7 +360,7 @@
                 index++;
             }
             layer.confirm('确定要删除吗？', function (index) {
-                deleteProduct(ids);
+                deleteCustom(ids);
                 layer.close(index);
             });
         })

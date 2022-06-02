@@ -1,5 +1,7 @@
 package com.order.dao;
 
+import com.order.pojo.AdminEntity;
+
 import java.util.List;
 import java.util.Map;
 
@@ -8,5 +10,5 @@ import java.util.Map;
  */
 public interface AdminDao {
 
-    List list(Map<String, Object> map);
+    List<AdminEntity> list(Map<String, Object> map);
 }

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.order.dao.ProductInfoDao" >
+  <resultMap id="BaseResultMap" type="com.order.pojo.ProductInfoEntity" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="product_name" property="productName" jdbcType="VARCHAR" />
+    <result column="depart_date" property="departDate" jdbcType="VARCHAR" />
+    <result column="stock" property="stock" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+    <result column="deleted" property="deleted" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, product_name, depart_date, stock, create_time, update_time, deleted
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from product_info
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+
+  <select id="listPage" resultMap="BaseResultMap" parameterType="java.util.Map" >
+      select
+      <include refid="Base_Column_List" />
+      from product_info
+      where 1 = 1
+      <if test="id != null and id!=''">
+          and id = #{id,jdbcType=VARCHAR}
+      </if>
+      <if test="productName != null and productName!=''">
+          and product_name=#{productName, jdbcType=VARCHAR}
+      </if>
+      AND deleted = 'F'
+      ORDER BY create_time DESC
+      limit #{startNum, jdbcType=INTEGER}, #{limit, jdbcType=INTEGER}
+  </select>
+  <select id="countNum" resultType="java.lang.Long" parameterType="java.util.Map" >
+      select count(1) from product_info
+      where 1 = 1
+      <if test="id != null and id!=''">
+          and id = #{id,jdbcType=VARCHAR}
+      </if>
+      <if test="productName != null and productName!=''">
+        and product_name=#{productName, jdbcType=VARCHAR}
+      </if>
+      AND deleted = 'F'
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from product_info
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.order.pojo.ProductInfoEntity" >
+    insert into product_info (id, product_name, depart_date, 
+      stock, create_time, update_time, 
+      deleted)
+    values (#{id,jdbcType=VARCHAR}, #{productName,jdbcType=VARCHAR}, #{departDate,jdbcType=VARCHAR}, 
+      #{stock,jdbcType=INTEGER}, #{createTime,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR}, 
+      #{deleted,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.order.pojo.ProductInfoEntity" >
+    insert into product_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="productName != null" >
+        product_name,
+      </if>
+      <if test="departDate != null" >
+        depart_date,
+      </if>
+      <if test="stock != null" >
+        stock,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="deleted != null" >
+        deleted,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="productName != null" >
+        #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="departDate != null" >
+        #{departDate,jdbcType=VARCHAR},
+      </if>
+      <if test="stock != null" >
+        #{stock,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.order.pojo.ProductInfoEntity" >
+    update product_info
+    <set >
+      <if test="productName != null" >
+        product_name = #{productName,jdbcType=VARCHAR},
+      </if>
+      <if test="departDate != null" >
+        depart_date = #{departDate,jdbcType=VARCHAR},
+      </if>
+      <if test="stock != null" >
+        stock = #{stock,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="deleted != null" >
+        deleted = #{deleted,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.order.pojo.ProductInfoEntity" >
+    update product_info
+    set product_name = #{productName,jdbcType=VARCHAR},
+      depart_date = #{departDate,jdbcType=VARCHAR},
+      stock = #{stock,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=VARCHAR},
+      deleted = #{deleted,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+  <update id="batchDelete" parameterType="java.util.List">
+      <foreach collection="list" item="item" index="index" close="" open="" separator=";">
+          update product_info set deleted = 'T', update_time = #{item.updateTime, jdbcType=VARCHAR}
+          where id = #{item.id, jdbcType=VARCHAR}
+      </foreach>
+  </update>
+</mapper>

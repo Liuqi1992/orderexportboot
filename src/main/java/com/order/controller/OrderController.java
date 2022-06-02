@@ -1,72 +1,96 @@
 package com.order.controller;
 
+import com.order.model.OrderInfoModel;
 import com.order.model.ProductInfoModel;
+import com.order.model.RootOrderModel;
+import com.order.pojo.OrderInfoEntity;
 import com.order.pojo.ProductInfoEntity;
+import com.order.service.OrderService;
 import com.order.service.ProductService;
+import com.order.service.RootOrderService;
 import com.order.utils.Constants;
 import com.order.utils.StringUtil;
+import javafx.scene.transform.Rotate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.UUID;
 
 @Controller
 @EnableAutoConfiguration
 @EnableConfigurationProperties
-@RequestMapping("/product")
-public class ProductController extends BaseController {
+@RequestMapping("/order")
+public class OrderController extends BaseController {
 
     @Autowired
-    private ProductService productService;
+    private OrderService orderService;
+
+    @Autowired
+    private RootOrderService rootOrderService;
 
     @RequestMapping(value = "/listPage", method=RequestMethod.GET)
-    public String systemPage() {
-        return "/vm/system/page";
+    public String systemPage(ModelMap map, @RequestParam(name = "rootOrderId") String rootOrderId) {
+        map.put("rootOrderId", rootOrderId);
+        RootOrderModel rootOrder = rootOrderService.findById(rootOrderId);
+        map.put("rootOrder", rootOrder);
+        return "/vm/order/page";
     }
 
 	@RequestMapping(value = "/list", method=RequestMethod.GET)
     @ResponseBody
-	public Result list(@RequestParam(name = "page") Integer page, @RequestParam(name = "limit") Integer limit) {
+	public Result list(@RequestParam(name = "page") Integer page,
+                       @RequestParam(name = "limit") Integer limit,
+                       @RequestParam(name = "rootOrderId") String rootOrderId) {
+        Result rlt = new Result();
+        if (null == rootOrderId || rootOrderId.equals("")) {
+            rlt.setCode(-1);
+            rlt.setMsg("rootOrderId is empty");
+            return rlt;
+        }
         Map<String, Object> map = CommonPageDeal(page, limit);
-	    Result rlt = new Result();
-        List<ProductInfoModel> productInfoModels = productService.listPage(map);
-        Long count = productService.countNum(map);
+        map.put("rootOrderId", rootOrderId);
+        List<OrderInfoModel> orderInfoModels = orderService.listPage(map);
+        Long count = orderService.countNum(map);
         rlt.setCode(0);
         rlt.setCount(count);
-        rlt.setData(productInfoModels);
+        rlt.setData(orderInfoModels);
 	    return rlt;
     }
 
     @RequestMapping(value = "/add", method=RequestMethod.POST)
     @ResponseBody
-    public Result add(ProductInfoEntity productInfo) {
+    public Result add(OrderInfoEntity orderInfo) {
         Result rlt = new Result();
-        productInfo.setId(UUID.randomUUID().toString());
-        productInfo.setCreateTime(StringUtil.getFormatDate(new Date()));
-        productInfo.setUpdateTime(StringUtil.getFormatDate(new Date()));
-        productInfo.setDeleted(Constants.DELETE_FLAG_F);
-        productService.AddProduct(productInfo);
+        orderInfo.setId(UUID.randomUUID().toString());
+        orderInfo.setCreateTime(StringUtil.getFormatDate(new Date()));
+        orderInfo.setUpdateTime(StringUtil.getFormatDate(new Date()));
+        orderInfo.setDeleted(Constants.DELETE_FLAG_F);
+        orderService.AddOrder(orderInfo);
         rlt.setCode(0);
         return rlt;
     }
 
     @RequestMapping(value = "/edit", method=RequestMethod.PUT)
     @ResponseBody
-    public Result edit(ProductInfoEntity productInfo) {
+    public Result edit(OrderInfoEntity orderInfo) {
         Result rlt = new Result();
-        if (productInfo.getId() == null || productInfo.getId().equals("")) {
+        if (orderInfo.getId() == null || orderInfo.getId().equals("")) {
             rlt.setCode(-1);
-            rlt.setMsg("product id is empty");
+            rlt.setMsg("order id is empty");
             return rlt;
         }
-        productInfo.setUpdateTime(StringUtil.getFormatDate(new Date()));
-        productService.editProduct(productInfo);
+        orderInfo.setUpdateTime(StringUtil.getFormatDate(new Date()));
+        orderService.editOrder(orderInfo);
         rlt.setCode(0);
         return rlt;
     }
@@ -77,10 +101,10 @@ public class ProductController extends BaseController {
         Result rlt = new Result();
         if (null == ids || "".equals(ids)) {
             rlt.setCode(-1);
-            rlt.setMsg("ids is empty");
+            rlt.setMsg("ids is empty.");
             return rlt;
         }
-        productService.batchDelete(ids);
+        orderService.batchDelete(ids);
         rlt.setCode(0);
         return rlt;
     }
@@ -92,7 +116,7 @@ public class ProductController extends BaseController {
 
         private Long count;
 
-        private List<ProductInfoModel> Data;
+        private List<OrderInfoModel> Data;
 
         public int getCode() {
             return code;
@@ -110,11 +134,11 @@ public class ProductController extends BaseController {
             this.msg = msg;
         }
 
-        public List<ProductInfoModel> getData() {
+        public List<OrderInfoModel> getData() {
             return Data;
         }
 
-        public void setData(List<ProductInfoModel> data) {
+        public void setData(List<OrderInfoModel> data) {
             Data = data;
         }
 
@@ -125,5 +149,6 @@ public class ProductController extends BaseController {
         public void setCount(Long count) {
             this.count = count;
         }
+
     }
 }

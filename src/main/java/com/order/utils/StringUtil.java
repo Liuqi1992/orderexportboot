@@ -116,4 +116,11 @@ public class StringUtil {
             return idcardValidator.isValidatedAllIdcard(sfzNum.trim());
         }
     }
+
+    public static String removeEndComma(String str) {
+        if (str == null || str.length() == 0 || !str.endsWith(",")) {
+            return str;
+        }
+        return str.substring(0, str.length() - 1);
+    }
 }

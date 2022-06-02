@@ -26,7 +26,6 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @ComponentScan(basePackages= "com.order")
 @EnableAutoConfiguration
 @EntityScan(basePackages="com.order.pojo")
-@EnableJpaRepositories(basePackages= "com.order.repository")
 @EnableConfigurationProperties(Audiences.class)
 @SpringBootApplication
 @EnableScheduling

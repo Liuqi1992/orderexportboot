@@ -12,6 +12,7 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 
@@ -25,7 +26,7 @@ public class WebSecurityConfig extends WebMvcConfigurerAdapter {
     /**
      * 登录session key
      */
-    public final static String SESSION_KEY = "user";
+    public final static String SESSION_KEY = "admin";
 
     @Bean
     public SecurityInterceptor getSecurityInterceptor() {
@@ -38,16 +39,12 @@ public class WebSecurityConfig extends WebMvcConfigurerAdapter {
         // 排除配置
         addInterceptor.excludePathPatterns("/error");
         addInterceptor.excludePathPatterns("/login**");
-        addInterceptor.excludePathPatterns("/user/login*");
-        addInterceptor.excludePathPatterns("/user/sendCode*");
-        addInterceptor.excludePathPatterns("/user/checkCode*");
-        addInterceptor.excludePathPatterns("/user/register*");
-
-        addInterceptor.excludePathPatterns("/system/page");
+        addInterceptor.excludePathPatterns("/admin/login*");
+        addInterceptor.excludePathPatterns("/admin/sendCode*");
+        addInterceptor.excludePathPatterns("/admin/checkCode*");
+        addInterceptor.excludePathPatterns("/admin/register*");
 
         addInterceptor.excludePathPatterns("/index");
-
-        addInterceptor.excludePathPatterns("/trade/getTradeByTradeNumWeb");
 
         // 拦截配置
         addInterceptor.addPathPatterns("/**");
@@ -58,30 +55,15 @@ public class WebSecurityConfig extends WebMvcConfigurerAdapter {
         @Override
         public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
                 throws Exception {
-            //HttpSession session = request.getSession();
-            Passport ppt_c = Passport.fromString(CookieUtils.getCookieValue(request, Constants.PASSPORT_COOKIE_NAME_C));
-            Passport ppt_d = Passport.fromString(CookieUtils.getCookieValue(request, Constants.PASSPORT_COOKIE_NAME_D));
-            if (ppt_c != null||ppt_d!=null)
+            HttpSession session = request.getSession();
+            String username = (String)session.getAttribute("adminName");
+            if(username != null && username != ""){
                 return true;
+            }
             System.out.println("===============未登录=================");
             // 跳转登录
-            String url = "/login";
-           // response.sendRedirect(url);
-           // response.getOutputStream().print("{errorCode:1,errorMsg:'用户未登录'}");
-            response.setCharacterEncoding("UTF-8");
-            response.setContentType("application/json; charset=utf-8");
-            String jsonStr = "{\"errorCode\":\"-1\",\"errorMsg\":\"用户未登录\"}";
-            PrintWriter out = null;
-            try {
-                out = response.getWriter();
-                out.write(jsonStr);
-            } catch (IOException e) {
-                e.printStackTrace();
-            } finally {
-                if (out != null) {
-                    out.close();
-                }
-            }
+            String url = "/index";
+            request.getRequestDispatcher(url).forward(request, response);
             return false;
         }
     }

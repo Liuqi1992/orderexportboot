@@ -74,27 +74,28 @@
 
     <div class="layui-body">
         <div class="layui-table-tool">
-            <button type="button" class="layui-btn" onclick="addProduct()">增加</button>
-            <button type="button" class="layui-btn" id="deleteProduct">删除</button>
+            <button type="button" class="layui-btn" onclick="addRootOrder()">增加</button>
+            <button type="button" class="layui-btn" id="deleteRootOrder">删除</button>
         </div>
         <!-- 内容主体区域 -->
-        <table class="layui-table" lay-data="{url:'/product/list', page:true, id:'idTest'}" lay-filter="demo">
+        <table class="layui-table" lay-data="{url:'/rootorder/list', page:true, id:'idTest'}" lay-filter="demo">
             <thead>
             <tr>
                 <th lay-data="{type:'checkbox', fixed: 'left'}"></th>
                 <th lay-data="{field:'sortNum', width:'5%', fixed: true}">序号</th>
-                <th lay-data="{field:'productName', width:'15%'}">产品名称</th>
-                <th lay-data="{field:'departDate', width:'15%'}">出发日期</th>
-                <th lay-data="{field:'stock', width:'15%'}">库存</th>
-                <th lay-data="{field:'saleOutNum', width:'15%'}">已售</th>
-                <th lay-data="{field:'leftNum', width:'15%'}">余位</th>
+                <th lay-data="{field:'orderNumber', width:'12%', fixed: true}">订单号</th>
+                <th lay-data="{field:'orderName', width:'12%'}">订单名称</th>
+                <th lay-data="{field:'customName', width:'12%'}">客户名称</th>
+                <th lay-data="{field:'sales', width:'10%'}">销售额</th>
+                <th lay-data="{field:'createTime', width:'15%'}">创建时间</th>
+                <th lay-data="{field:'updateTime', width:'15%'}">更新时间</th>
                 <th lay-data="{fixed: 'right', align:'center', toolbar: '#barDemo'}"></th>
             </tr>
             </thead>
         </table>
 
         <script type="text/html" id="barDemo">
-            <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">查看</a>
+            <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="detail">订单明细</a>
             <a class="layui-btn layui-btn-xs" lay-event="edit">编辑</a>
             <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
         </script>
@@ -106,73 +107,59 @@
     </div>
 </div>
 
-<div id="add_product" style="display: none;">
+<div id="add_rootOrder" style="display: none;">
     <br/>
-    <form id="add_product_form" class="layui-form" action="">
+    <form id="add_rootOrder_form" class="layui-form" action="">
     <div class="layui-form-item">
-        <label class="layui-form-label" style="width: 100px">产品名称：</label>
+        <label class="layui-form-label" style="width: 100px">订单号：</label>
         <div class="layui-input-block">
-            <input type="text" name="productName" required lay-verify="required" autocomplete="off" class="layui-input" style="width: 260px"/>
+            <input type="text" name="orderNumber" required lay-verify="required" autocomplete="off" class="layui-input" style="width: 260px"/>
         </div>
     </div>
 
     <div class="layui-form-item">
-        <label class="layui-form-label" style="width: 100px">出发日期：</label>
+        <label class="layui-form-label" style="width: 100px">订单名称：</label>
         <div class="layui-input-inline">
-            <input type="text" name="departDate" id="departDate" required lay-verify="required" autocomplete="off" class="layui-input" placeholder="yyyy-MM-dd" style="width: 260px"/>
+            <input type="text" name="orderName" required lay-verify="required" autocomplete="off" class="layui-input" style="width: 260px"/>
         </div>
     </div>
 
     <div class="layui-form-item">
-        <label class="layui-form-label" style="width: 100px">库存：</label>
+        <label class="layui-form-label" style="width: 100px">客户名称：</label>
         <div class="layui-input-block">
-            <input type="text" name="stock" required lay-verify="required" autocomplete="off" class="layui-input" style="width: 260px"/>
+            <input type="text" name="customName" required lay-verify="required" autocomplete="off" class="layui-input" style="width: 260px"/>
         </div>
     </div>
     </form>
 </div>
 
-<div id="edit_product" style="display: none;">
+<div id="edit_rootOrder" style="display: none;">
     <br/>
-    <form id="edit_product_form" class="layui-form" action="">
+    <form id="edit_rootOrder_form" class="layui-form" action="">
         <div class="layui-form-item">
             <input type="hidden" name="id" id="editId">
-            <label class="layui-form-label" style="width: 100px">产品名称：</label>
+            <label class="layui-form-label" style="width: 100px">订单号：</label>
             <div class="layui-input-block">
-                <input type="text" name="productName" id="editProductName" autocomplete="off" required lay-verify="required" class="layui-input" style="width: 260px"/>
+                <input type="text" name="orderNumber" id="editOrderNumber" disabled required lay-verify="required" class="layui-input" style="width: 260px"/>
             </div>
         </div>
 
         <div class="layui-form-item">
-            <label class="layui-form-label" style="width: 100px">出发日期：</label>
+            <label class="layui-form-label" style="width: 100px">订单名称：</label>
             <div class="layui-input-inline">
-                <input type="text" name="departDate" id="editDepartDate" autocomplete="off" required lay-verify="required" class="layui-input" placeholder="yyyy-MM-dd" style="width: 260px"/>
+                <input type="text" name="orderName" id="editOrderName" autocomplete="off" required lay-verify="required" class="layui-input" style="width: 260px"/>
             </div>
         </div>
 
         <div class="layui-form-item">
-            <label class="layui-form-label" style="width: 100px">库存：</label>
+            <label class="layui-form-label" style="width: 100px">客户名称：</label>
             <div class="layui-input-block">
-                <input type="text" name="stock" id="editStock" required lay-verify="required" autocomplete="off" class="layui-input" style="width: 260px"/>
+                <input type="text" name="customName" id="editCustomName" required lay-verify="required" autocomplete="off" class="layui-input" style="width: 260px"/>
             </div>
         </div>
     </form>
 </div>
 
-<div id="product_detail" style="display: none">
-    <table class="layui-table">
-        <thead>
-        <tr><td width="20%">产品ID：</td><td id="detail_product_id"></td></tr>
-        <tr><td width="20%">产品名称：</td><td id="detail_product_name"></td></tr>
-        <tr><td width="20%">出发日期：</td><td id="detail_depart_date"></td></tr>
-        <tr><td width="20%">库存：</td><td id="detail_stock"></td></tr>
-        <tr><td width="20%">已售：</td><td id="detail_sale_out_num"></td></tr>
-        <tr><td width="20%">余位：</td><td id="detail_left_num"></td></tr>
-        <tr><td width="20%">创建时间：</td><td id="detail_create_time"></td></tr>
-        <tr><td width="20%">修改时间：</td><td id="detail_update_time"></td></tr>
-        </thead>
-    </table>
-</div>
 <script>
     //JS
     layui.use(['element', 'layer', 'util'], function(){
@@ -202,66 +189,40 @@
     });
 </script>
 
-<script type="text/javascript" src="/js/product/add.js" charset="utf-8"></script>
-<script type="text/javascript" src="/js/product/delete.js" charset="utf-8"></script>
+<script type="text/javascript" src="/js/rootorder/add.js" charset="utf-8"></script>
+<script type="text/javascript" src="/js/rootorder/delete.js" charset="utf-8"></script>
 
 <script>
-    layui.use('laydate', function(){
-        var laydate = layui.laydate;
-        laydate.render({
-            elem: '#departDate'
-        });
-        laydate.render({
-            elem: '#editDepartDate'
-        });
-    });
-
     layui.use(['table', 'form'], function() {
         var table = layui.table;
         //监听工具条
         table.on('tool(demo)', function (obj) {
             var data = obj.data;
             if (obj.event === 'detail') {
-                $("#detail_product_id")[0].innerText = data.id;
-                $("#detail_product_name")[0].innerText = data.productName;
-                $("#detail_depart_date")[0].innerText = data.departDate;
-                $("#detail_stock")[0].innerText = data.stock;
-                $("#detail_sale_out_num")[0].innerText = data.saleOutNum;
-                $("#detail_left_num")[0].innerText = data.leftNum;
-                $("#detail_create_time")[0].innerText = data.createTime;
-                $("#detail_update_time")[0].innerText = data.updateTime;
-                layer.open({
-                    type: 1,
-                    title: '产品详情',
-                    area: ["560px", "520px"],
-                    content: $("#product_detail"),
-                    btn: "确定",
-                    yes: function (index, layero) {
-                        layer.close(index);
-                    }
-                });
+                var url = "/order/listPage?rootOrderId=" + data.id;
+                location.href = url;
             } else if (obj.event === 'del') {
-                layer.confirm('确定要删除该产品吗？', function (index) {
-                    deleteProduct(data.id);
+                layer.confirm('确定要删除该主订单吗？', function (index) {
+                    deleteRootOrder(data.id);
                     layer.close(index);
                 });
             } else if (obj.event === 'edit') {
-                $("#editProductName").val(data.productName);
-                $("#editDepartDate").val(data.departDate);
-                $("#editStock").val(data.stock);
+                $("#editOrderNumber").val(data.orderNumber);
+                $("#editOrderName").val(data.orderName);
+                $("#editCustomName").val(data.customName);
                 $("#editId").val(data.id);
                 var form = layui.form;
                 layer.open({
                     type: 1,
-                    title: "编辑产品",
+                    title: "编辑主订单",
                     area: ["560px", "360px"],
-                    content: $("#edit_product"),
+                    content: $("#edit_rootOrder"),
                     btn: ["编辑", "取消"],
                     yes: function(index, layero) {
                         $.ajax({
-                            url: "/product/edit",
+                            url: "/rootorder/edit",
                             type: "PUT",
-                            data: $("#edit_product_form").serializeArray(),
+                            data: $("#edit_rootOrder_form").serializeArray(),
                             dataType: "json",
                             success: function(data) {
                                 if(data.code == 0) {
@@ -294,7 +255,7 @@
 
     layui.use('table', function () {
         var table = layui.table;
-        $("#deleteProduct").on("click", function () {
+        $("#deleteRootOrder").on("click", function () {
             var checkStatus = table.checkStatus('idTest'), data = checkStatus.data;
             if(data.length < 1) {
                 layer.alert('选中个数需大于0');
@@ -306,7 +267,7 @@
                 index++;
             }
             layer.confirm('确定要删除吗？', function (index) {
-                deleteProduct(ids);
+                deleteRootOrder(ids);
                 layer.close(index);
             });
         })

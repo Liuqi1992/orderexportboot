@@ -116,7 +116,7 @@
             return alert('请输入正确的用户名')
             //return 跳出当前函数，并且返回后面的值
         }
-        $.post("/user/login", {"username":usernamevalue,"password":passwordvalue},function(data) {
+        $.post("/admin/login", {"username":usernamevalue,"password":passwordvalue},function(data) {
             if(data.rlt == 200) {
                 layer.msg('登录成功', {
                     icon: 6,

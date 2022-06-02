@@ -1,7 +1,10 @@
 package com.order.controller;
 
+import com.order.model.CustomInfoModel;
 import com.order.model.ProductInfoModel;
+import com.order.pojo.CustomInfoEntity;
 import com.order.pojo.ProductInfoEntity;
+import com.order.service.CustomService;
 import com.order.service.ProductService;
 import com.order.utils.Constants;
 import com.order.utils.StringUtil;
@@ -19,15 +22,15 @@ import java.util.*;
 @Controller
 @EnableAutoConfiguration
 @EnableConfigurationProperties
-@RequestMapping("/product")
-public class ProductController extends BaseController {
+@RequestMapping("/custom")
+public class CustomController extends BaseController {
 
     @Autowired
-    private ProductService productService;
+    private CustomService customService;
 
     @RequestMapping(value = "/listPage", method=RequestMethod.GET)
     public String systemPage() {
-        return "/vm/system/page";
+        return "/vm/customer/page";
     }
 
 	@RequestMapping(value = "/list", method=RequestMethod.GET)
@@ -35,38 +38,38 @@ public class ProductController extends BaseController {
 	public Result list(@RequestParam(name = "page") Integer page, @RequestParam(name = "limit") Integer limit) {
         Map<String, Object> map = CommonPageDeal(page, limit);
 	    Result rlt = new Result();
-        List<ProductInfoModel> productInfoModels = productService.listPage(map);
-        Long count = productService.countNum(map);
+        List<CustomInfoModel> customInfoModels = customService.listPage(map);
+        Long count = customService.countNum(map);
         rlt.setCode(0);
         rlt.setCount(count);
-        rlt.setData(productInfoModels);
+        rlt.setData(customInfoModels);
 	    return rlt;
     }
 
     @RequestMapping(value = "/add", method=RequestMethod.POST)
     @ResponseBody
-    public Result add(ProductInfoEntity productInfo) {
+    public Result add(CustomInfoEntity customInfoEntity) {
         Result rlt = new Result();
-        productInfo.setId(UUID.randomUUID().toString());
-        productInfo.setCreateTime(StringUtil.getFormatDate(new Date()));
-        productInfo.setUpdateTime(StringUtil.getFormatDate(new Date()));
-        productInfo.setDeleted(Constants.DELETE_FLAG_F);
-        productService.AddProduct(productInfo);
+        customInfoEntity.setId(UUID.randomUUID().toString());
+        customInfoEntity.setCreateTime(StringUtil.getFormatDate(new Date()));
+        customInfoEntity.setUpdateTime(StringUtil.getFormatDate(new Date()));
+        customInfoEntity.setDeleted(Constants.DELETE_FLAG_F);
+        customService.AddCustom(customInfoEntity);
         rlt.setCode(0);
         return rlt;
     }
 
     @RequestMapping(value = "/edit", method=RequestMethod.PUT)
     @ResponseBody
-    public Result edit(ProductInfoEntity productInfo) {
+    public Result edit(CustomInfoEntity customInfo) {
         Result rlt = new Result();
-        if (productInfo.getId() == null || productInfo.getId().equals("")) {
+        if (customInfo.getId() == null || customInfo.getId().equals("")) {
             rlt.setCode(-1);
-            rlt.setMsg("product id is empty");
+            rlt.setMsg("custom id is empty");
             return rlt;
         }
-        productInfo.setUpdateTime(StringUtil.getFormatDate(new Date()));
-        productService.editProduct(productInfo);
+        customInfo.setUpdateTime(StringUtil.getFormatDate(new Date()));
+        customService.editCustom(customInfo);
         rlt.setCode(0);
         return rlt;
     }
@@ -76,11 +79,11 @@ public class ProductController extends BaseController {
     public Result delete(@RequestParam(name = "ids", required = false) String ids) {
         Result rlt = new Result();
         if (null == ids || "".equals(ids)) {
-            rlt.setCode(-1);
             rlt.setMsg("ids is empty");
+            rlt.setCode(-1);
             return rlt;
         }
-        productService.batchDelete(ids);
+        customService.batchDelete(ids);
         rlt.setCode(0);
         return rlt;
     }
@@ -92,7 +95,7 @@ public class ProductController extends BaseController {
 
         private Long count;
 
-        private List<ProductInfoModel> Data;
+        private List<CustomInfoModel> Data;
 
         public int getCode() {
             return code;
@@ -110,11 +113,11 @@ public class ProductController extends BaseController {
             this.msg = msg;
         }
 
-        public List<ProductInfoModel> getData() {
+        public List<CustomInfoModel> getData() {
             return Data;
         }
 
-        public void setData(List<ProductInfoModel> data) {
+        public void setData(List<CustomInfoModel> data) {
             Data = data;
         }
 

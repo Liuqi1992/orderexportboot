@@ -4,6 +4,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.BeanUtils;
 
+import javax.persistence.Id;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -549,7 +550,7 @@ public final class ConvertUtil {
 
     /**
      * excel空处理
-     * @param cell
+     * @param
      * @return
      */
     /*public static String null2StringCell(Cell cell){
@@ -561,4 +562,6 @@ public final class ConvertUtil {
         }
 
     }*/
+
+
 }

@@ -5,6 +5,9 @@ package com.order.utils;
  */
 public class Constants {
 
+    public static final String DELETE_FLAG_F = "F";
+    public static final String DELETE_FLAG_T = "T";
+
     public static final String PASSPORT_COOKIE_NAME_C = "tclapp_c";
     public static final String PASSPORT_COOKIE_NAME_D = "tclapp_d";
 

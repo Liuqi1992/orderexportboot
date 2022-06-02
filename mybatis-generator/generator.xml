@@ -9,13 +9,13 @@
 		</commentGenerator>
 		<!-- oracle URL、username、password -->
 		<jdbcConnection driverClass="com.mysql.jdbc.Driver"
-			connectionURL="jdbc:mysql://47.98.156.102:3306/shuxue_ans" userId="root" password="root">
+			connectionURL="jdbc:mysql://127.0.0.1:3306/orderexport" userId="root" password="ts123456">
 		</jdbcConnection>
 		<javaTypeResolver>
 			<property name="forceBigDecimals" value="false" />
 		</javaTypeResolver>
 		<!-- model package and location -->
-		<javaModelGenerator targetPackage="com.shuxue.mode" targetProject="../src/main/java">
+		<javaModelGenerator targetPackage="com.order.pojo" targetProject="../src/main/java">
 			<property name="enableSubPackages" value="true" />
 			<property name="trimStrings" value="true" />
 		</javaModelGenerator>
@@ -24,34 +24,10 @@
 			<property name="enableSubPackages" value="true" />
 		</sqlMapGenerator>
 		<!-- dao package and location -->
-		<javaClientGenerator type="XMLMAPPER" targetPackage="com.shuxue.dao" targetProject="../src/main/java">
+		<javaClientGenerator type="XMLMAPPER" targetPackage="com.order.dao" targetProject="../src/main/java">
 			<property name="enableSubPackages" value="true" />
 		</javaClientGenerator>
-		<!-- table name,  change tableName and domainObjectName  
-		<table tableName="user" domainObjectName="User" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" />
-		<table tableName="sysacount" domainObjectName="Sysacount" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" />
-		<table tableName="module" domainObjectName="Module" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" />
-		<table tableName="permissiongroup" domainObjectName="Permissiongroup" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" />
-		<table tableName="pg_module" domainObjectName="Pgmodule" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" />
--->
-		<!--<table tableName="app_c_applicant" domainObjectName="ApplicantModel" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" />-->
-		<!--<table tableName="app_c_bill" domainObjectName="BillModel" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" />-->
-		<!--<table tableName="app_c_cart" domainObjectName="CartModel" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" />-->
-		<!--<table tableName="app_c_department" domainObjectName="DepartmentModel" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" />-->
-		<!--<table tableName="app_c_doctor" domainObjectName="DoctorModel" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" />-->
-		<!--<table tableName="app_c_doctor_statistics" domainObjectName="DoctorStatisticsModel" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" />-->
-		<!--<table tableName="app_c_follow" domainObjectName="FollowModel" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" />-->
-		<!--<table tableName="app_c_hospital" domainObjectName="HospitalModel" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" />-->
-		<!--<table tableName="app_c_newspaper" domainObjectName="NewspaperModel" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" />-->
-		<!--<table tableName="app_c_order" domainObjectName="OrderModel" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" />-->
-		<!--<table tableName="app_c_package" domainObjectName="PackageModel" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" />-->
-		<!--<table tableName="app_c_package_details" domainObjectName="PackageDetailsModel" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" />-->
-		<!--<table tableName="app_c_trade" domainObjectName="TradeModel" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" />-->
-		<!--<table tableName="app_c_user" domainObjectName="UserModel" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" />-->
-		<!--<table tableName="app_c_province" domainObjectName="ProvinceModel" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" />-->
-		<!--<table tableName="app_c_city" domainObjectName="CityModel" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" />-->
-		<table tableName="ms_ks_answer_record" domainObjectName="MsKsAnswerRecordEntity" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" />
-		<!--<table tableName="ms_blood_site" domainObjectName="MsBloodSiteEntity" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" />-->
-		<!--<table tableName="ms_bloodbank" domainObjectName="MsBloodbankEntity" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" />-->
+		<!-- table name,  change tableName and domainObjectName -->
+        <table tableName="root_order" domainObjectName="RootOrderEntity" enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false" selectByExampleQueryId="false" />
 	</context>
 </generatorConfiguration>

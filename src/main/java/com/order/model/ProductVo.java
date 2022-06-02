@@ -13,9 +13,9 @@ public class ProductVo {
 
     private int stock;
 
-    private int saleOutNums;
+    private int saleOutNum;
 
-    private int leftNums;
+    private int leftNum;
 
     public String getProductName() {
         return productName;
@@ -41,19 +41,19 @@ public class ProductVo {
         this.stock = stock;
     }
 
-    public int getSaleOutNums() {
-        return saleOutNums;
+    public int getSaleOutNum() {
+        return saleOutNum;
     }
 
-    public void setSaleOutNums(int saleOutNums) {
-        this.saleOutNums = saleOutNums;
+    public void setSaleOutNum(int saleOutNum) {
+        this.saleOutNum = saleOutNum;
     }
 
-    public int getLeftNums() {
-        return leftNums;
+    public int getLeftNum() {
+        return leftNum;
     }
 
-    public void setLeftNums(int leftNums) {
-        this.leftNums = leftNums;
+    public void setLeftNum(int leftNum) {
+        this.leftNum = leftNum;
     }
 }
