@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.tcl.dao.ApplicantDao">
+<mapper namespace="com.order.dao.ApplicantDao">
 
 
-  <resultMap id="ApplicantResultMap" type="com.tcl.vo.ApplicantVo" >
+  <resultMap id="ApplicantResultMap" type="com.order.model.ApplicantVo" >
     <id column="id" property="id" jdbcType="BIGINT"/>
     <result column="apply_name" property="applyName" jdbcType="VARCHAR" />
     <result column="phone" property="phone" jdbcType="VARCHAR" />
@@ -13,7 +13,7 @@
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="pay_time" property="createTime" jdbcType="VARCHAR" />
   </resultMap>
-  <resultMap id="TradeResultMap" type="com.tcl.vo.TradeVo" >
+  <resultMap id="TradeResultMap" type="com.order.model.TradeVo" >
     <id column="id" property="id" jdbcType="BIGINT"/>
     <result column="need_attention" property="needAttention" jdbcType="VARCHAR" />
     <result column="hospital_name" property="hospitalName" jdbcType="VARCHAR" />
@@ -158,33 +158,7 @@
        and t.status>#{status} order by status asc
   </select>
 
-  <select id="queryReport" parameterType="Map" resultMap="ReportVoMap">
-    select p.name AS packageName,p.pic_url,o.id as id,t.hospital_name,o.take_time,o.report_time,t.trade_num from app_c_order o left JOIN app_c_trade t on o.trade_id=t.id LEFT JOIN app_c_applicant a on a.id=t.applicant_id
-    left JOIN app_c_package p on o.package_id=p.id
-    where 1=1
-    <if test="name!='' and name!=null">
-      and a.apply_name = #{name}
-    </if>
-    <if test="sfzNum!='' and sfzNum!=null">
-      and a.sfz_num = #{sfzNum}
-    </if>
-    <if test="tradeNum!='' and tradeNum!=null">
-      and t.trade_num = #{tradeNum}
-    </if>
-    <if test="takeTime!='' and takeTime!=null">
-      and o.take_time > #{takeTime}
-    </if>
-    <if test="doctorId!='' and doctorId!=null">
-      and t.doctor_id = #{doctorId}
-    </if>
-    <if test="status!='' and status!=null">
-      and t.status = #{status}
-    </if>
-    <if test="orderBy!='' and orderBy!=null">
-      and t.status>0
-      order BY #{orderBy} DESC
-    </if>
-  </select>
+
 
   <select id="tradeListByStatus" parameterType="java.lang.String"  resultMap="TradeResultMap">
     SELECT t.* from app_c_trade t where 1=1
@@ -204,12 +178,6 @@
       and t.status >= 0
     </if>
     order by t.create_time DESC
-  </select>
-
-  <select id="getMyUserDetail" parameterType="java.lang.Long"  resultMap="ReportVoMap">
-    SELECT o.id,t.trade_num,t.create_time,o.report_time,o.unscramble_content,o.status, p.name AS package_name,p.pic_url from app_c_trade t LEFT JOIN app_c_order o on t.id=o.trade_id LEFT JOIN app_c_package p on o.package_id=p.id
-    where t.applicant_id=#{applyId} and t.status>1 ORDER BY t.ordered_time DESC
-
   </select>
 
 </mapper>

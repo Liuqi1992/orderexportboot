@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.order.dao.OrderInfoDao" >
+  <resultMap id="BaseResultMap" type="com.order.pojo.OrderInfoEntity" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="root_order_id" property="rootOrderId" jdbcType="VARCHAR" />
+    <result column="order_number" property="orderNumber" jdbcType="VARCHAR" />
+    <result column="order_resource" property="orderResource" jdbcType="VARCHAR" />
+    <result column="number" property="number" jdbcType="INTEGER" />
+    <result column="order_date" property="orderDate" jdbcType="VARCHAR" />
+    <result column="depart_date" property="departDate" jdbcType="VARCHAR" />
+    <result column="order_amount" property="orderAmount" jdbcType="DECIMAL" />
+    <result column="cost" property="cost" jdbcType="DECIMAL" />
+    <result column="custom_id" property="customId" jdbcType="VARCHAR" />
+    <result column="supplier" property="supplier" jdbcType="VARCHAR" />
+    <result column="tourist_info" property="touristInfo" jdbcType="VARCHAR" />
+    <result column="bill_account" property="billAccount" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="VARCHAR" />
+    <result column="deleted" property="deleted" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, root_order_id, order_number, order_resource, number, order_date, depart_date, order_amount,
+    cost, custom_id, supplier, tourist_info, bill_account, create_time, update_time, deleted
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from order_info
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from order_info
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.order.pojo.OrderInfoEntity" >
+    insert into order_info (id, root_order_id, order_number, order_resource,
+      number, order_date, depart_date, 
+      order_amount, cost, custom_id, supplier, tourist_info, bill_account,
+      create_time, update_time, deleted
+      )
+    values (#{id,jdbcType=VARCHAR}, #{rootOrderId,jdbcType=VARCHAR}, #{orderNumber,jdbcType=VARCHAR}, #{orderResource,jdbcType=VARCHAR},
+      #{number,jdbcType=INTEGER}, #{orderDate,jdbcType=VARCHAR}, #{departDate,jdbcType=VARCHAR}, 
+      #{orderAmount,jdbcType=DECIMAL}, #{cost,jdbcType=DECIMAL}, #{customId,jdbcType=VARCHAR},
+      #{supplier, jdbcType=VARCHAR}, #{touristInfo, jdbcType=VARCHAR}, #{billAccount, jdbcType=VARCHAR},
+      #{createTime,jdbcType=VARCHAR}, #{updateTime,jdbcType=VARCHAR}, #{deleted,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.order.pojo.OrderInfoEntity" >
+    insert into order_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="rootOrderId != null" >
+        root_order_id,
+      </if>
+      <if test="orderNumber != null" >
+        order_number,
+      </if>
+      <if test="orderResource != null" >
+        order_resource,
+      </if>
+      <if test="number != null" >
+        number,
+      </if>
+      <if test="orderDate != null" >
+        order_date,
+      </if>
+      <if test="departDate != null" >
+        depart_date,
+      </if>
+      <if test="orderAmount != null" >
+        order_amount,
+      </if>
+      <if test="cost != null" >
+        cost,
+      </if>
+      <if test="customId != null" >
+        custom_id,
+      </if>
+      <if test="supplier != null" >
+        supplier,
+      </if>
+      <if test="touristInfo != null" >
+        tourist_info,
+      </if>
+      <if test="billAccount != null" >
+          bill_account,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="deleted != null" >
+        deleted,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="rootOrderId != null" >
+        #{rootOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNumber != null" >
+        #{orderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="orderResource != null" >
+        #{orderResource,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null" >
+        #{number,jdbcType=INTEGER},
+      </if>
+      <if test="orderDate != null" >
+        #{orderDate,jdbcType=VARCHAR},
+      </if>
+      <if test="departDate != null" >
+        #{departDate,jdbcType=VARCHAR},
+      </if>
+      <if test="orderAmount != null" >
+        #{orderAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="cost != null" >
+        #{cost,jdbcType=DECIMAL},
+      </if>
+      <if test="customId != null" >
+        #{customId,jdbcType=VARCHAR},
+      </if>
+      <if test="supplier != null" >
+        #{supplier,jdbcType=VARCHAR},
+      </if>
+      <if test="touristInfo != null" >
+        #{touristInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="billAccount != null" >
+        #{billAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="deleted != null" >
+        #{deleted,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.order.pojo.OrderInfoEntity" >
+    update order_info
+    <set >
+      <if test="rootOrderId != null" >
+        root_order_id = #{rootOrderId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderNumber != null" >
+        order_number = #{orderNumber,jdbcType=VARCHAR},
+      </if>
+      <if test="orderResource != null" >
+        order_resource = #{orderResource,jdbcType=VARCHAR},
+      </if>
+      <if test="number != null" >
+        number = #{number,jdbcType=INTEGER},
+      </if>
+      <if test="orderDate != null" >
+        order_date = #{orderDate,jdbcType=VARCHAR},
+      </if>
+      <if test="departDate != null" >
+        depart_date = #{departDate,jdbcType=VARCHAR},
+      </if>
+      <if test="orderAmount != null" >
+        order_amount = #{orderAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="cost != null" >
+        cost = #{cost,jdbcType=DECIMAL},
+      </if>
+      <if test="customId != null" >
+        custom_id = #{customId,jdbcType=VARCHAR},
+      </if>
+      <if test="supplier != null" >
+        supplier = #{supplier,jdbcType=VARCHAR},
+      </if>
+      <if test="touristInfo != null" >
+        tourist_info = #{touristInfo,jdbcType=VARCHAR},
+      </if>
+      <if test="billAccount != null" >
+        bill_account = #{billAccount,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=VARCHAR},
+      </if>
+      <if test="deleted != null" >
+        deleted = #{deleted,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.order.pojo.OrderInfoEntity" >
+    update order_info
+    set  root_order_id = #{rootOrderId,jdbcType=VARCHAR},
+      order_number = #{orderNumber,jdbcType=VARCHAR},
+      order_resource = #{orderResource,jdbcType=VARCHAR},
+      number = #{number,jdbcType=INTEGER},
+      order_date = #{orderDate,jdbcType=VARCHAR},
+      depart_date = #{departDate,jdbcType=VARCHAR},
+      order_amount = #{orderAmount,jdbcType=DECIMAL},
+      cost = #{cost,jdbcType=DECIMAL},
+      custom_id = #{customId,jdbcType=VARCHAR},
+      supplier = #{supplier,jdbcType=VARCHAR},
+      tourist_info = #{touristInfo,jdbcType=VARCHAR},
+      bill_account = #{billAccount,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=VARCHAR},
+      deleted = #{deleted,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+
+    <select id="listPage" resultMap="BaseResultMap" parameterType="java.util.Map" >
+        select
+        <include refid="Base_Column_List" />
+        from order_info
+        where 1 = 1
+        <if test="id != null and id!=''">
+            and id = #{id,jdbcType=VARCHAR}
+        </if>
+        <if test="rootOrderId != null and rootOrderId !=''">
+            and root_order_id = #{rootOrderId,jdbcType=VARCHAR}
+        </if>
+        AND deleted = 'F'
+        ORDER BY create_time DESC
+        limit #{startNum, jdbcType=INTEGER}, #{limit, jdbcType=INTEGER}
+    </select>
+
+    <select id="countNum" resultType="java.lang.Long" parameterType="java.util.Map" >
+        select count(1) from order_info
+        where 1 = 1
+        <if test="id != null and id!=''">
+            and id = #{id,jdbcType=VARCHAR}
+        </if>
+        AND deleted = 'F'
+    </select>
+
+    <update id="batchDelete" parameterType="java.util.List">
+        <foreach collection="list" item="item" index="index" close="" open="" separator=";">
+            update order_info set deleted = 'T', update_time = #{item.updateTime, jdbcType=VARCHAR}
+            where id = #{item.id, jdbcType=VARCHAR}
+        </foreach>
+    </update>
+</mapper>
